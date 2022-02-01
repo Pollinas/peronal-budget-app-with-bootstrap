@@ -2,3 +2,32 @@ body{
     background-image: url("https://images.unsplash.com/photo-1522441815192-d9f04eb0615c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8YmFja2dyb3VuZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=600&q=60");
     background-size: cover;
 }
+
+.is-featured{
+    text-decoration: none;
+    text-transform: uppercase;
+    background-color: rgb(185, 114, 47);
+    opacity: 70%;
+    border-radius: 15px;
+    color: black;
+}
+
+.is-featured:hover, .is-featured:focus{
+    color:white;
+    text-decoration: none;
+}
+
+cite{
+    color:black;
+    font-size: 150%;  
+    font-weight: bold;
+    background: white;
+    opacity: 60%;
+}
+
+p{
+    background: white;
+    opacity: 60%;
+    color:black;
+}
+
