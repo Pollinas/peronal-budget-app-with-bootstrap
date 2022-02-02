@@ -70,7 +70,7 @@
                 <div class="input-group col-md">
                     <label for="amount" class="form-label align-self-center m-1">KWOTA WYDATKU</label>
                     <span class="input-group-text">PLN</span>
-                    <input type="number" class="form-control" id="amount" aria-describedby="amountHelp">
+                    <input type="number" class="form-control" id="amount">
                 </div>
                 <div class="input-group col-md m-1">
                     <label for="date" class="form-label align-self-center m-1 m-md-2">DATA WYDATKU</label>
@@ -87,8 +87,9 @@
                 </div>
             </div>
 
-            <div>
-                <label for="payment-methods" class="form-label m-2">METODA PŁATNOŚCI</label>
+            <div class="my-md-4">
+                <label class="form-label m-3">METODA PŁATNOŚCI</label>
+                <br>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input payment-methods" type="radio" name="payment-method" id="cash"
                         value="cash">
@@ -109,7 +110,7 @@
 
 
             <div class="row align-self-center">
-                <div class="input-group col-md m-2 m-md-3">
+                <div class="input-group col-md m-2 my-md-3">
                     <label for="category"></label>
                     <span class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                             fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
@@ -141,41 +142,42 @@
 
 
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-info btn-sm col-md-3 col-6 m-2" data-bs-toggle="modal"
+                <button type="button" class="btn btn-info btn-sm col-md-3 col-6 m-3" data-bs-toggle="modal"
                     data-bs-target="#exampleModal">
                     DODAJ KOMENTARZ
                 </button>
 
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">KOMENTARZ</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form action="#">
-                                    <label for="comment" class="form-label"></label>
-                                    <input type="text" id="comment" class="form-control" placeholder="Wpisz tekst">
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ZAMKNIJ</button>
-                                <button type="button" class="btn btn-primary">ZAPISZ ZMIANY</button>
-                            </div>
-                        </div>
-                    </div>
+
+
+                <div class="row justify-content-between align-items-center flex-row">
+                    <button type="submit" class="btn btn-primary my-md-4 my-2 mx-5 col-md">ZATWIERDŹ</button>
+                    <button type="submit" class="btn btn-secondary col-md my-md-4 mx-5">ANULUJ</button>
                 </div>
             </div>
-
-            <div class="row justify-content-between align-items-center flex-row">
-                <button type="submit" class="btn btn-primary m-2 col-md">ZATWIERDŹ</button>
-                <button type="submit" class="btn btn-secondary col-md">ANULUJ</button>
-            </div>
         </form>
+
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">KOMENTARZ</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="#">
+                        <label for="comment" class="form-label"></label>
+                        <input type="text" id="comment" class="form-control" placeholder="Wpisz tekst">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ZAMKNIJ</button>
+                    <button type="button" class="btn btn-primary">ZAPISZ ZMIANY</button>
+                </div>
+            </div>
+        </div>
     </div>
 
 
