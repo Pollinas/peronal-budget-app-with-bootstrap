@@ -63,8 +63,9 @@
         </div>
     </nav>
 
-    <div class="container d-flex flex-column justify-content-between align-items-center p-md-3 m-md-5">
-        <h1 class="display-6 text-center p-3">WYDATEK</h1>
+
+    <div class="container d-flex  align-content-center my-auto mt-4 px-4">
+        <h1 class="display-6 text-center align-self-center p-3 ">WYDATEK</h1>
         <form action="#">
             <div class="row m-md-3 m-1">
                 <div class="input-group col-md">
@@ -87,8 +88,8 @@
                 </div>
             </div>
 
-            <div class="my-md-4">
-                <label class="form-label m-3">METODA PŁATNOŚCI</label>
+            <div class="mx-auto row align-items-center">
+                <label class="form-label  col align-self-center">METODA PŁATNOŚCI</label>
                 <br>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input payment-methods" type="radio" name="payment-method" id="cash"
@@ -142,21 +143,22 @@
 
 
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-info btn-sm col-md-3 col-6 m-3" data-bs-toggle="modal"
+                <button type="button" id="comment" class="btn btn-sm col-md-3 col-6 m-3" data-bs-toggle="modal"
                     data-bs-target="#exampleModal">
                     DODAJ KOMENTARZ
                 </button>
 
 
 
-                <div class="row justify-content-between align-items-center flex-row">
-                    <button type="submit" class="btn btn-primary my-md-4 my-2 mx-5 col-md">ZATWIERDŹ</button>
-                    <button type="submit" class="btn btn-secondary col-md my-md-4 mx-5">ANULUJ</button>
+                <div class="row justify-content-evenly align-items-center flex-row">
+                    <button type="submit" id="submit" class="btn my-md-4 my-2 mx-5 col-2">ZATWIERDŹ</button>
+                    <button type="submit" class="btn  col-2 my-md-4 mx-5">ANULUJ</button>
                 </div>
             </div>
         </form>
 
     </div>
+
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
