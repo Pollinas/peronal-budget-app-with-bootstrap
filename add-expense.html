@@ -6,112 +6,77 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Expense</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="add-expense.css">
 </head>
 
 <body>
-    <nav class="navbar sticky-top navbar-expand-md navbar-light bg-light flex-md-column opacity-75">
+    <nav class="navbar sticky-top  navbar-light bg-light opacity-75">
         <div class="container-fluid">
-            <span class="navbar-brand"> BUDŻET OSOBISTY</span>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navLinks"
-                aria-controls="navLinks" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navLinks">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">O APLIKACJI</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">KONTAKT</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">POMOC</a>
-                    </li>
-                </ul>
-            </div>
-
-            <div>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-gear" viewBox="0 0 16 16">
-                                <path
-                                    d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z" />
-                                <path
-                                    d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z" />
-                            </svg>
-                            USTAWIENIA
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-box-arrow-right" viewBox="0 0 16 16" width="30" height="24">
-                                <path fill-rule="evenodd"
-                                    d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
-                                <path fill-rule="evenodd"
-                                    d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
-                            </svg>
-                            WYLOGUJ SIĘ
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            <span class="navbar-brand  mx-4 fs-4 fw-bold" id="name">
+                <img class="img-fluid" width="6%"" src=" https://image.flaticon.com/icons/png/512/417/417095.png?w=740"
+                    alt="">
+                Personal Budget App
+            </span>
         </div>
     </nav>
 
+    <figure class="text-center">
+        <blockquote class="blockquote">
+            <p>Pieniądze nie są celem. Pieniądze nie mają wartości. Wartość mają marzenia, które
+                pieniądze pomogą zarealizować.</p>
+        </blockquote>
+        <figcaption class="blockquote-footer">
+            <cite title="Source Title">Robert Kiyosaki</cite>
+        </figcaption>
+    </figure>
 
-    <div class="container d-flex  align-content-center my-auto mt-4 px-4">
+
+    <div class="container main d-flex flex-column align-items-center justify-content-center p-3 m-5 mx-auto">
         <h1 class="display-6 text-center align-self-center p-3 ">WYDATEK</h1>
-        <form action="#">
-            <div class="row m-md-3 m-1">
-                <div class="input-group col-md">
+        <form method="post" class="fw-bold">
+            <div class="container d-flex flex-md-row flex-column align-items-center justify-content-center">
+                <div class="input-group m-2">
                     <label for="amount" class="form-label align-self-center m-1">KWOTA WYDATKU</label>
                     <span class="input-group-text">PLN</span>
                     <input type="number" class="form-control" id="amount">
                 </div>
-                <div class="input-group col-md m-1">
+                <div class="input-group m-2">
                     <label for="date" class="form-label align-self-center m-1 m-md-2">DATA WYDATKU</label>
-                    <span class="input-group-text">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-calendar-event" viewBox="0 0 16 16">
-                            <path
-                                d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z" />
-                            <path
-                                d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
-                        </svg>
-                    </span>
                     <input type="date" class="form-control" id="date">
                 </div>
             </div>
 
-            <div class="mx-auto row align-items-center">
-                <label class="form-label  col align-self-center">METODA PŁATNOŚCI</label>
-                <br>
+            <div class="container d-flex m-3 flex-column text-center justify-content-center">
+                <label class="form-label fw-bolder m-3">METODA PŁATNOŚCI</label>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input payment-methods" type="radio" name="payment-method" id="cash"
                         value="cash">
-                    <label class="form-check-label" for="cash">GOTÓWKA</label>
+                    <label class="form-check-label" for="cash">gotówka</label>
                 </div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input payment-methods" type="radio" name="payment-method" id="credit-card"
                         value="credit-card">
-                    <label class="form-check-label" for="credit-card">KARTA KREDYTOWA</label>
+                    <label class="form-check-label" for="credit-card">karta kredytowa</label>
                 </div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input payment-methods" type="radio" name="payment-method" id="debit-card"
                         value="debit-card">
-                    <label class="form-check-label" for="debit-card">KARTA DEBETOWA</label>
+                    <label class="form-check-label" for="debit-card">karta debetowa</label>
                 </div>
             </div>
 
 
 
-            <div class="row align-self-center">
-                <div class="input-group col-md m-2 my-md-3">
+            <div class="container d-flex align-items-center justify-content-center flex-column">
+                <div class="input-group m-3">
                     <label for="category"></label>
                     <span class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                             fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
@@ -120,41 +85,40 @@
                         </svg></span>
                     <select class="form-select" id="category" aria-label="Default select example">
                         <option selected>WYBIERZ KATEGORIĘ</option>
-                        <option value="food">JEDZENIE</option>
-                        <option value="rent">MIESZKANIE</option>
-                        <option value="transportation">TRANSPORT</option>
-                        <option value="telecomunication">TELEKOMUNIKACJA</option>
-                        <option value="health-care">OPIEKA ZDROWOTNA</option>
-                        <option value="clothing">UBRANIE</option>
-                        <option value="hygiene">HIGIENA</option>
-                        <option value="children">DZIECI</option>
-                        <option value="entertainment">ROZRYWKA</option>
-                        <option value="travel">PODRÓŻE</option>
-                        <option value="schooling">SZKOLENIA</option>
-                        <option value="books">KSIĄŻKI</option>
-                        <option value="savings">OSZCZĘDNOŚCI</option>
-                        <option value="retirement-savings">NA EMERYTURĘ</option>
-                        <option value="debts">SPŁATA DŁUGÓW</option>
-                        <option value="donation">DAROWIZNA</option>
-                        <option value="other">INNE</option>
+                        <option value="food">jedzenie</option>
+                        <option value="rent">mieszkanie</option>
+                        <option value="transportation">transport</option>
+                        <option value="telecomunication">telekomunikacja</option>
+                        <option value="health-care">opieka zdrowotna</option>
+                        <option value="clothing">ubranie</option>
+                        <option value="hygiene">higiena</option>
+                        <option value="children">dzieci</option>
+                        <option value="entertainment">rozrywka</option>
+                        <option value="travel">podróże</option>
+                        <option value="schooling">szkolenia</option>
+                        <option value="books">książki</option>
+                        <option value="savings">oszczędności</option>
+                        <option value="retirement-savings">na emeryturę</option>
+                        <option value="debts">spłata długów</option>
+                        <option value="donation">darowizna</option>
+                        <option value="other">inne</option>
                     </select>
                 </div>
 
 
 
                 <!-- Button trigger modal -->
-                <button type="button" id="comment" class="btn btn-sm col-md-3 col-6 m-3" data-bs-toggle="modal"
+                <button type="button" id="comment" class="btn btn-sm m-3" data-bs-toggle="modal"
                     data-bs-target="#exampleModal">
-                    DODAJ KOMENTARZ
+                    Dodaj komentarz
                 </button>
-
-
-
-                <div class="row justify-content-evenly align-items-center flex-row">
-                    <button type="submit" id="submit" class="btn my-md-4 my-2 mx-5 col-2">ZATWIERDŹ</button>
-                    <button type="submit" class="btn  col-2 my-md-4 mx-5">ANULUJ</button>
-                </div>
             </div>
+
+            <div class="container d-flex align-items-center justify-content-center flex-column m-3">
+                <button type="submit" id="submit" class="btn m-3">DODAJ WYDATEK</button>
+                <a href="main-menu.html" class="m-2">Wróć do menu głównego</a>
+            </div>
+
         </form>
 
     </div>
@@ -165,7 +129,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">KOMENTARZ</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Twoje uwagi do wydatku</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -175,8 +139,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ZAMKNIJ</button>
-                    <button type="button" class="btn btn-primary">ZAPISZ ZMIANY</button>
+                    <button type="button" class="btn mod2  mx-3 p-2">Zapisz</button>
+                    <button type="button" class="btn btn-sm mod1 mx-3 p-2" data-bs-dismiss="modal">Zamknij</button>
                 </div>
             </div>
         </div>
