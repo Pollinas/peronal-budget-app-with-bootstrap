@@ -1,21 +1,56 @@
 body {
-	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-	background-size: 400% 400%;
-	animation: gradient 15s ease infinite;
-	height: 100vh;
+
+	background:  url("https://images.unsplash.com/photo-1591617870684-6e861e6a48ad?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=892&q=80") no-repeat center center fixed;
+	background-size: cover;
+	-webkit-background-size: cover;
+    -moz-background-size: cover;
+     -o-background-size: cover;
+}
+.main{
+	
+	border-radius: 15px;
+	background: rgba(255, 255, 255, 0.4);
+	backdrop-filter: blur(3px);
+	-webkit-backdrop-filter: blur(3px);
 }
 
-@keyframes gradient {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
+.navbar{
+	font-family: 'Cormorant Garamond', serif;
+	background: linear-gradient(to bottom, #E6E6E6, white) ;
 }
+h1, .main{
+	font-family: 'Roboto Slab', serif;
+}
+
+figure{
+	display: none;
+}
+
+.navbar:hover + figure{
+	display: block;
+	position:relative;
+}
+.navbar:hover{
+	background: linear-gradient(to bottom, #B5BA55, white) ;
+}
+
+
+.modal{
+	font-family: 'Roboto Slab', serif;
+	font-weight: bold;
+	background: linear-gradient(to bottom, #B5BA55, white) ;
+}
+
+#time{
+    padding: 10px;
+    border-radius: 15px;
+    background-color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+
 
 .pie-chart{
     width: 15rem;
