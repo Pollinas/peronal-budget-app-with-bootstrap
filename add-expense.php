@@ -8,15 +8,59 @@
         exit();
     }
 
+    $id = $_SESSION['id'];
+    //rozpoczecie pobierania danych do kategorii i mmetod płatności
+    require_once"connect.php";
+
+    mysqli_report(MYSQLI_REPORT_STRICT);
+
+    try
+    {
+        $connection = new mysqli($host, $db_user, $db_password, $db_name);
+            
+        if ($connection->connect_errno!=0)
+        {
+            throw new Exception(mysqli->connect_errno());
+        }
+        else
+        {   
+            $categories = $connection->query("SELECT name FROM expenses_category_assigned_to_users
+            WHERE user_id =$id" );
+
+             if(!$categories)
+            {
+                 throw new Exception($connection->error);
+            }
+
+            $payment_methods = $connection->query("SELECT name FROM payment_methods_assigned_to_users
+            WHERE user_id =$id ");
+
+             if(!$payment_methods)
+            {
+                 throw new Exception($connection->error);
+            }
+                
+                $connection->close();
+            }
+        }
+        catch(Exception $e)
+        {
+            echo '<span style="color:red"> Błąd serwera! Przepraszamy za niedogodności i prosimy o dodanie wydatku w innym terminie!</span>';
+            echo '<br />Informacja deweloperska: '.$e;
+        }
+       
+        //zakończenie
+
+
     if(isset($_POST['amount']))
     {
         $expense_ok = true; 
 
         $amount = $_POST['amount'];
-        if($amount<0)
+        if($amount<=0)
         {
             $expense_ok = false; 
-            $_SESSION['e_amount'] = "Kwota wydatku nie może być mniejsza od 0!";
+            $_SESSION['e_amount'] = "Kwota wydatku musi być większa od 0!";
         }
 
         $date = $_POST['date'];
@@ -37,7 +81,6 @@
             $expense_ok = false; 
             $_SESSION['e_category'] = "Wybierz kategorię!";
         }
-
         $comment='';
 
         if (isset($_POST['comment'])) $comment=$_POST['comment'];
@@ -59,11 +102,39 @@
                
                 if($expense_ok == true)
                 {
-                    $id = $_SESSION['id'];
-                    //tu też pobranie id payment-method i id expense- category
+                     // id payment-method i id expense- category
+                    $stmt = $connection->prepare("SELECT id FROM expenses_category_assigned_to_users
+                    WHERE user_id='$id' AND name='$category' limit 1");
+
+                    if($stmt->execute())
+                    {
+                    $result = $stmt->get_result();
+                    $value = $result->fetch_object();
+                    $category_id= $value->id;
+                    }
+                    else
+                    {
+                        throw new Exception($connection->error);
+                    }
+
+                    $stmt = $connection->prepare("SELECT id FROM payment_methods_assigned_to_users
+                     WHERE user_id ='$id' AND name='$payment_method' limit 1");
+
+                    if($stmt->execute())
+                    {
+                    $result = $stmt->get_result();
+                    $value = $result->fetch_object();
+                    $payment_method_id= $value->id;
+                    }
+                    else
+                    {
+                        throw new Exception($connection->error);
+                    }
+
+                    
 
                     if( $connection->query("INSERT INTO expenses
-                    VALUES (NULL, '$id' ,''  ,  '' ,'$amount', '$date', '$comment')") )
+                    VALUES ( NULL, $id , $category_id , $payment_method_id, $amount, '$date', '$comment' )" ) )
                     {
                         $_SESSION['expense_success'] = true; 
                         header('Location: main-menu.php');
@@ -138,39 +209,37 @@
                 <div class="input-group m-2">
                     <label for="amount" class="form-label align-self-center m-1">KWOTA WYDATKU</label>
                     <span class="input-group-text">PLN</span>
-                    <input type="number" name="amount" class="form-control" id="amount" required>
+                    <input type="number" name="amount" class="form-control" id="amount"  required>
                 </div>
-                <?php
-                if(isset($_SESSION['e_amount']))
-                {
-                    echo '<div style="color:red">'.$_SESSION['e_amount'].'</div>';
-                    unset($_SESSION['e_amount']);
-                }
-                ?>
+               
                 <div class="input-group m-2">
                     <label for="date" class="form-label align-self-center m-1 m-md-2">DATA WYDATKU</label>
                     <input type="date" name="date" class="form-control" id="date" onchange="myFunction(event)" required>
                 </div>
             </div>
+            <?php
+                if(isset($_SESSION['e_amount']))
+                {
+                    echo '<div class="text-center" style="color:red">'.$_SESSION['e_amount'].'</div>';
+                    unset($_SESSION['e_amount']);
+                }
+             ?>
 
             <div class="container d-flex m-3 flex-column text-center justify-content-center">
                 <label class="form-label fw-bolder m-3">METODA PŁATNOŚCI</label>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input payment-methods" type="radio" name="payment_method" id="cash"
-                        value="cash">
-                    <label class="form-check-label" for="cash">gotówka</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input payment-methods" type="radio" name="payment_method" id="credit-card"
-                        value="credit-card">
-                    <label class="form-check-label" for="credit-card">karta kredytowa</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input payment-methods" type="radio" name="payment_method" id="debit-card"
-                        value="debit-card">
-                    <label class="form-check-label" for="debit-card">karta debetowa</label>
-                </div>
-                 <!--tu trzeba będzie pobrać z bazy danych metody płatności do pokazania-->
+
+                <?php
+                       while($row=$payment_methods->fetch_assoc())
+                    {  
+                    ?>
+                    <div class="form-check form-check-inline">
+                    <input class="form-check-input payment-methods" type="radio" name="payment_method" id="<?php echo $row['name'] ?>"
+                        value="<?php echo $row['name'] ?>">
+                    <label class="form-check-label" for="<?php echo $row['name'] ?>"><?php echo $row['name'] ?></label>
+                     </div>
+                      <?php }
+                    ?>
+              
             </div>
             <?php
                 if(isset($_SESSION['e_payment_method']))
@@ -192,12 +261,12 @@
                         </svg></span>
                     <select class="form-select" id="category" name="category" aria-label="Default select example">
                         <option selected value="">WYBIERZ KATEGORIĘ</option>
-                        <option value="other" id="other">inne</option>
                      <?php
-
-                        //$id = $_SESSION['id'];
-                       // $categories = $connection->query("SELECT name FROM expenses_category_assigned_to_users
-                       // WHERE user_id = '$id'")
+                       while($row=$categories->fetch_assoc())
+                       {  
+                    ?>
+                       <option value="<?php echo $row['name'] ?>"> <?php echo $row['name'] ?></option>
+                      <?php }
                     ?>
                     </select>
                 </div>
@@ -241,7 +310,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn mod2  mx-3 p-2">Zapisz</button>
+                    <button type="submit"  class="btn mod2  m-4 ">Zapisz</button>
                     <button type="button" class="btn btn-sm mod1 mx-3 p-2" data-bs-dismiss="modal">Zamknij</button>
                 </div>
             </div>
