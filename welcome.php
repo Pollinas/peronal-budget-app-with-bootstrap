@@ -74,7 +74,7 @@
     
 
         unset($_SESSION['sign_up_success']);
-    }
+    
 ?>
 
 <!DOCTYPE html>
@@ -93,12 +93,22 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="welcome.css" />
 </head>
 <body>
 
+    <div class="container mx-auto my-auto d-flex flex-row justify-content-center align-items-center" height="40px">
+        <div class="container mx-auto my-auto" >
+            <img src="https://images.unsplash.com/photo-1519834785169-98be25ec3f84?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c3VjY2Vzc3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=600&q=60" 
+            class="img-fluid" alt="">
+        </div>
+
+    <div class="container d-flex flex-column align-items-center">
+    Dziękujemy za rejestrację! Możesz już <a href="sign-in.php">zalogować się</a> na swoje konto! 
+
+    </div>  
+
     
-    Dziękujemy za rejestrację! Możesz już zalogować się na swoje konto!
-    <a href="sign-in.php">LOGOWANIE</a>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
