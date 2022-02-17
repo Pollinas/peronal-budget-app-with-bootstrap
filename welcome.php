@@ -74,6 +74,7 @@
     
 
         unset($_SESSION['sign_up_success']);
+    }
     
 ?>
 
