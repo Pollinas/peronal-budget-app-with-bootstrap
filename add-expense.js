@@ -15,13 +15,5 @@ function myFunction(e) {
 
 }
 
-function checkAmount(e) {
-    var amount = document.querySelector("#amount").value;
 
-    if (amount <= 0) {
-        alert("Kwota wydatku musi być większa od 0!");
-        document.getElementById("#amount").value = null;
-    }
-
-}
 

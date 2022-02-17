@@ -6,6 +6,119 @@
         header('Location: sign-in.php');
         exit();
     }
+
+    $id = $_SESSION['id'];
+    //rozpoczecie pobierania danych do kategorii i mmetod płatności
+    require_once"connect.php";
+
+    mysqli_report(MYSQLI_REPORT_STRICT);
+
+    try
+    {
+        $connection = new mysqli($host, $db_user, $db_password, $db_name);
+            
+        if ($connection->connect_errno!=0)
+        {
+            throw new Exception(mysqli->connect_errno());
+        }
+        else
+        {   
+            $categories = $connection->query("SELECT name FROM incomes_category_assigned_to_users
+            WHERE user_id =$id" );
+
+             if(!$categories)
+            {
+                 throw new Exception($connection->error);
+            }
+                
+                $connection->close();
+            }
+        }
+        catch(Exception $e)
+        {
+            echo '<span style="color:red"> Błąd serwera! Przepraszamy za niedogodności i prosimy o dodanie wydatku w innym terminie!</span>';
+            echo '<br />Informacja deweloperska: '.$e;
+        }
+
+        if(isset($_POST['amount']))
+    {
+        $income_ok = true; 
+
+        $amount = $_POST['amount'];
+        if($amount<=0)
+        {
+            $income_ok = false; 
+            $_SESSION['e_amount'] = "Kwota przychodu musi być większa od 0!";
+        }
+
+        $date = $_POST['date'];
+
+        $category = $_POST['category'];
+
+       if($category == "")
+        {
+            $income_ok = false; 
+            $_SESSION['e_category'] = "Wybierz kategorię!";
+        }
+        $comment='';
+
+        if (isset($_POST['comment'])) $comment=$_POST['comment'];
+
+        require_once"connect.php";
+
+        mysqli_report(MYSQLI_REPORT_STRICT);
+
+        try
+        {
+            $connection = new mysqli($host, $db_user, $db_password, $db_name);
+            
+            if ($connection->connect_errno!=0)
+            {
+                throw new Exception(mysqli->connect_errno());
+            }
+            else
+            {
+               
+                if($income_ok == true)
+                {
+                     // get id income- category
+                    $stmt = $connection->prepare("SELECT id FROM incomes_category_assigned_to_users
+                    WHERE user_id='$id' AND name='$category' limit 1");
+
+                    if($stmt->execute())
+                    {
+                    $result = $stmt->get_result();
+                    $value = $result->fetch_object();
+                    $category_id= $value->id;
+                    }
+                    else
+                    {
+                        throw new Exception($connection->error);
+                    }
+
+
+                    if( $connection->query("INSERT INTO incomes
+                    VALUES ( NULL, $id , $category_id ,  $amount, '$date', '$comment' )" ) )
+                    {
+                        $_SESSION['income_success'] = true; 
+                        header('Location: main-menu.php');
+                    }
+                    else
+                    {
+                        throw new Exception($connection->error);
+                    }
+                }
+      
+                $connection->close();
+            }
+        }
+        catch(Exception $e)
+        {
+            echo '<span style="color:red"> Błąd serwera! Przepraszamy za niedogodności i prosimy o dodanie wydatku w innym terminie!</span>';
+            echo '<br />Informacja deweloperska: '.$e;
+        }
+  
+    }
 ?>
 
 <!DOCTYPE html>
@@ -50,17 +163,25 @@
 
     <div class="container main d-flex flex-column align-items-center justify-content-center p-3 m-5 mx-auto">
         <h1 class="display-6 text-center align-self-center p-3 ">PRZYCHÓD</h1>
+        <form method="post" class="fw-bold">
         <div class="container d-flex flex-md-row flex-column align-items-center justify-content-center">
-            <div class="input-group m-2">
+            <div class="input-group">
                 <label for="amount" class="form-label align-self-center m-1">KWOTA PRZYCHODU</label>
                 <span class="input-group-text">PLN</span>
-                <input type="number" class="form-control" id="amount">
+                <input type="number" class="form-control" name="amount" id="amount" required>
             </div>
             <div class="input-group m-2">
-                <label for="date" class="form-label align-self-center m-1 m-md-2">DATA PRZYCHODU</label>
-                <input type="date" class="form-control" id="date">
+                <label for="date" class="form-label align-self-center m-1">DATA PRZYCHODU</label>
+                <input type="date" class="form-control" id="date" name="date" onchange="myFunction(event)" required>
             </div>
         </div>
+        <?php
+                if(isset($_SESSION['e_amount']))
+                {
+                    echo '<div class="text-center" style="color:red">'.$_SESSION['e_amount'].'</div>';
+                    unset($_SESSION['e_amount']);
+                }
+             ?>
 
 
 
@@ -72,14 +193,24 @@
                         <path
                             d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
                     </svg></span>
-                <select class="form-select" id="category" aria-label="Default select example">
-                    <option selected>WYBIERZ KATEGORIĘ</option>
-                    <option value="salary">wynagrodzenie</option>
-                    <option value="allegro-sale">sprzedaż na allegro</option>
-                    <option value="bank-interest">odsetki bankowe</option>
-                    <option value="other">inne</option>
+                <select class="form-select" id="category" name="category" aria-label="Default select example">
+                    <option selected value="">WYBIERZ KATEGORIĘ</option>
+                    <?php
+                       while($row=$categories->fetch_assoc())
+                       {  
+                    ?>
+                       <option value="<?php echo $row['name'] ?>"> <?php echo $row['name'] ?></option>
+                      <?php }
+                    ?>
                 </select>
             </div>
+            <?php
+                if(isset($_SESSION['e_category']))
+                {
+                    echo '<div style="color:red">'.$_SESSION['e_category'].'</div>';
+                    unset($_SESSION['e_category']);
+                }
+                ?>
 
 
 
@@ -124,6 +255,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
+    <script src="add-income.js"></script>
 </body>
 
 </html>
