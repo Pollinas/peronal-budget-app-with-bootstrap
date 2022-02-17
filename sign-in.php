@@ -1,3 +1,12 @@
+<?php
+    session_start();
+
+    if (isset($_SESSION['logged']) && ($_SESSION['logged'] == true))
+    {
+        header('Location: main-menu.php');
+        exit();
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,7 +51,7 @@
 
     <div class="container main d-flex flex-column align-items-center p-3 m-5 mx-auto">
         <h1 class="display-6 text-center p-3">LOGOWANIE</h1>
-        <form method="post" class="fw-bold ">
+        <form method="post" action="check-login.php"  class="fw-bold ">
 
             <div
                 class="social-container px-2 align-items-center justify-content-evenly d-flex align-items-center justify-content-center">
@@ -69,27 +78,30 @@
             <div class="input-group d-flex align-self-center m-3 px-3">
                 <label for="email" class="form-label"> </label>
                 <span class="input-group-text">@</span>
-                <input type="email" class="form-control rounded" id="email" aria-describedby="email" required
+                <input type="email" name="email" class="form-control rounded" id="email" aria-describedby="email" required
                     placeholder="Wpisz swój adres e-mail" required>
             </div>
 
             <div class="input-group d-flex m-3 px-3 align-self-center">
                 <label for="password" class="form-label"> </label>
-                <input type="password" class="form-control rounded" id="password" aria-describedby="password"
+                <input type="password" name="password" class="form-control rounded" id="password" aria-describedby="password"
                     placeholder="Podaj hasło" required>
             </div>
 
+            <?php
+            if (isset($_SESSION['error']))    echo $_SESSION['error'];
+            ?>
 
             <div class=" d-flex justify-content-center">
                 <button type="submit" class="btn m-3 p-2" id="register">ZALOGUJ SIĘ</button>
             </div>
 
             <div class="container d-flex align-items-center justify-content-center">
-                Nie masz jeszcze konta? <a href="sign-up.html" class="m-3" id="signUp">Zarejestruj się </a>
+                Nie masz jeszcze konta? <a href="sign-up.php" class="m-3" id="signUp">Zarejestruj się </a>
             </div>
-
-
         </form>
+      
+    
     </div>
 
 

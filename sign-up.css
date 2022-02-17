@@ -72,6 +72,12 @@ figure{
 	background: linear-gradient(to bottom, #B5BA55, white) ;
 }
 
+.error{
+	color:red; 
+	margin-top:10px; 
+	margin-bottom:10px;
+}
+
 
 
 

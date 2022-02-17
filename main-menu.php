@@ -1,3 +1,13 @@
+<?php
+    session_start();
+
+    if(!isset($_SESSION['logged']))
+    {
+        header('Location: sign-in.php');
+        exit();
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,32 +29,31 @@
 </head>
 
 <body>
-
     <div class="pos-f-t">
         <div class="collapse " id="navbarToggleExternalContent">
             <div class="bg-dark p-4">
                 <h5 class="h3 m-2" style="color: #EE666C">
                     Personal Budget App</h5>
-                <span class="h5">- MENU GŁÓWNE -</span>
+               
                 <ul>
-                    <li class=" p-4"><a href="add-expense.html"><i class="bi bi-basket"></i><span class="m-2">Dodaj
+                    <li class=" p-4"><a href="add-expense.php"><i class="bi bi-basket"></i><span class="m-2">Dodaj
                                 wydatek</span></a></li>
-                    <li class="p-4"><a href="add-income.html"><i class="bi bi-cash"></i><span class="m-2">Dodaj
+                    <li class="p-4"><a href="add-income.php"><i class="bi bi-cash"></i><span class="m-2">Dodaj
                                 przychód</span></a></li>
-                    <li class="p-4"><a href="display-balance.html"><i class="bi bi-pie-chart-fill"></i><span
+                    <li class="p-4"><a href="display-balance.php"><i class="bi bi-pie-chart-fill"></i><span
                                 class="m-2">Wyświetl
                                 bilans</span></a></li>
                     <li class="p-4"><a href="#"><i class="bi bi-gear"></i><span class="m-2">Ustawienia</span></a></li>
-                    <li class="p-4"><a href="#"><i class="bi bi-box-arrow-right"></i><span class="m-2">Wyloguj
+                    <li class="p-4"><a href="logout.php"><i class="bi bi-box-arrow-right"></i><span class="m-2">Wyloguj
                                 się</span></a></li>
                 </ul>
             </div>
         </div>
-        <nav class=" navbar navbar-dark bg-dark">
+        <nav class=" navbar navbar-dark bg-dark p-2">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
                 aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon m-1"></span>
+                <span class="navbar-toggler-icon m-1"></span> <span class="h5">MENU GŁÓWNE</span>
             </button>
         </nav>
     </div>
