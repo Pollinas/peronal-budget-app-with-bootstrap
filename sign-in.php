@@ -23,6 +23,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="sign-in.css">
 </head>
 
@@ -86,6 +87,7 @@
                 <label for="password" class="form-label"> </label>
                 <input type="password" name="password" class="form-control rounded" id="password" aria-describedby="password"
                     placeholder="Podaj hasło" required>
+                    <span class="input-group-text"><i class="bi bi-eye-slash" id="togglePassword"></i></span>
             </div>
 
             <?php
@@ -105,11 +107,10 @@
     </div>
 
 
-
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
+        <script src="sign-in.js" ></script>
 </body>
 
 </html>

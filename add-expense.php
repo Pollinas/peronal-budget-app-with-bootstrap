@@ -1,5 +1,6 @@
 <?php
-    session_start();
+   
+   session_start();
 
     if(!isset($_SESSION['logged']))
     {
@@ -26,6 +27,13 @@
        // sprawdzenie czy któraś jest zaznaczona
 
         $category = $_POST['category'];
+
+       if($category == "")
+        {
+            $expense_ok = false; 
+            $_SESSION['e_category'] = "Wybierz kategorię!";
+        }
+
         $comment='';
         require_once"connect.php";
 
@@ -48,7 +56,7 @@
                     //tu też pobranie id payment-method i id expense- category
 
                     if( $connection->query("INSERT INTO expenses
-                    VALUES (NULL, '$id' ,  ,   ,'$amount', '$date', '$comment')") )
+                    VALUES (NULL, '$id' ,''  ,  '' ,'$amount', '$date', '$comment')") )
                     {
                         $_SESSION['expense_success'] = true; 
                         header('Location: main-menu.php');
@@ -65,8 +73,8 @@
         }
         catch(Exception $e)
         {
-            echo '<span style="color:red"> Błąd serwera! Przepraszamy za niedogodności i prosimy o rejestrację w innym terminie!</span>';
-           // echo '<br />Informacja deweloperska: '.$e;
+            echo '<span style="color:red"> Błąd serwera! Przepraszamy za niedogodności i prosimy o dodanie wydatku w innym terminie!</span>';
+            echo '<br />Informacja deweloperska: '.$e;
         }
        
 
@@ -131,7 +139,7 @@
                     echo '<div style="color:red">'.$_SESSION['e_amount'].'</div>';
                     unset($_SESSION['e_amount']);
                 }
-            ?>
+                ?>
                 <div class="input-group m-2">
                     <label for="date" class="form-label align-self-center m-1 m-md-2">DATA WYDATKU</label>
                     <input type="date" name="date" class="form-control" id="date" required>
@@ -155,6 +163,7 @@
                         value="debit-card">
                     <label class="form-check-label" for="debit-card">karta debetowa</label>
                 </div>
+                 <!--tu trzeba będzie pobrać z bazy danych metody płatności do pokazania-->
             </div>
 
 
@@ -168,28 +177,18 @@
                                 d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
                         </svg></span>
                     <select class="form-select" id="category" name="category" aria-label="Default select example">
-                        <option selected>WYBIERZ KATEGORIĘ</option>
+                        <option selected value="">WYBIERZ KATEGORIĘ</option>
                         <option value="food">jedzenie</option>
-                        <option value="rent">mieszkanie</option>
-                        <option value="transportation">transport</option>
-                        <option value="telecomunication">telekomunikacja</option>
-                        <option value="health-care">opieka zdrowotna</option>
-                        <option value="clothing">ubranie</option>
-                        <option value="hygiene">higiena</option>
-                        <option value="children">dzieci</option>
-                        <option value="entertainment">rozrywka</option>
-                        <option value="travel">podróże</option>
-                        <option value="schooling">szkolenia</option>
-                        <option value="books">książki</option>
-                        <option value="savings">oszczędności</option>
-                        <option value="retirement-savings">na emeryturę</option>
-                        <option value="debts">spłata długów</option>
-                        <option value="donation">darowizna</option>
-                        <option value="other">inne</option>
+                        <!--tu trzeba będzie pobrać z bazy danych kategorie do pokazania-->
                     </select>
                 </div>
-
-
+                <?php
+                if(isset($_SESSION['e_category']))
+                {
+                    echo '<div style="color:red">'.$_SESSION['e_category'].'</div>';
+                    unset($_SESSION['e_category']);
+                }
+                ?>
 
                 <!-- Button trigger modal -->
                 <button type="button" id="comment" class="btn btn-sm m-2 d-none" data-bs-toggle="modal"
@@ -217,7 +216,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="#">
+                    <form method="post">
                         <label for="comment" class="form-label"></label>
                         <input type="text" id="comment" name="comment" class="form-control" placeholder="Wpisz tekst">
                     </form>

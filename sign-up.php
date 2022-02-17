@@ -190,12 +190,14 @@
                 <label for="password" class="form-label"> </label>
                 <input type="password" name="password1" minlength="5" maxlength="20" class="form-control rounded" id="password" aria-describedby="password"
                     placeholder="Wpisz hasło" required>
+                    <span class="input-group-text"><i class="bi bi-eye-slash" id="togglePassword"></i></span>
             </div>
 
             <div class="input-group mx-3 my-1">
                 <label for="password2" class="form-label"> </label>
                 <input type="password" name="password2" class="form-control rounded" id="password2" aria-describedby="password2"
                     placeholder="Wpisz hasło ponownie" required>
+                    <span class="input-group-text"><i class="bi bi-eye-slash" id="togglePassword2"></i></span>
             </div>
             <?php
                 if(isset($_SESSION['e_password']))
@@ -222,6 +224,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
+    <script src="sign-up.js"></script>
 
 
 </body>
