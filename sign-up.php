@@ -1,3 +1,91 @@
+<?php
+    session_start();
+    if(isset($_POST['email']))
+    {
+        $everything_OK = true; 
+
+        $username = $_POST['username'];
+        if (!preg_match('/^[\p{Latin}\s]+$/u', $username))
+        {
+            $everything_OK = false; 
+            $_SESSION['e_username'] = "Imię może składać się tylko z liter.";
+        }
+
+        $email = $_POST['email'];
+        $emailS = filter_var($email, FILTER_SANITIZE_EMAIL);
+
+        if(filter_var($emailS, FILTER_VALIDATE_EMAIL) == false || $emailS != $email)
+        {
+            $everything_OK = false; 
+            $_SESSION['e_email'] = "Podaj poprawny adres e-mail.";
+        }
+
+
+        $password1 = $_POST['password1'];
+        $password2 = $_POST['password2'];
+
+        if($password1 != $password2)
+        {
+            $everything_OK = false; 
+            $_SESSION['e_password'] = "Podane hasła muszą być jednakowe!";
+        }
+
+        $password_hash = password_hash($password1, PASSWORD_DEFAULT);
+
+        require_once"connect.php";
+
+        mysqli_report(MYSQLI_REPORT_STRICT);
+
+        try
+        {
+            $connection = new mysqli($host, $db_user, $db_password, $db_name);
+            
+            if ($connection->connect_errno!=0)
+            {
+                throw new Exception(mysqli->connect_errno());
+            }
+            else
+            {
+                $result = $connection->query("SELECT id FROM users WHERE email='$email'");
+
+                if(!$result) throw new Exception ($connection->error);
+                $howManyEmails = $result->num_rows;
+
+                if ($howManyEmails>0)
+                {
+                    $everything_OK = false; 
+                    $_SESSION['e_email'] = "Istnieje już konto o takim adresie e-mail!";
+                }
+
+                
+                if($everything_OK == true)
+                {
+                    if($connection->query("INSERT INTO users VALUES (NULL,'$username', '$password_hash', '$email')") )
+                    {
+                        $_SESSION['sign_up_success'] = true; 
+                        header('Location: welcome.php');
+                    }
+                    else
+                    {
+                        throw new Exception($connection->error);
+                    }
+                }
+      
+                $connection->close();
+            }
+
+        }
+        catch(Exception $e)
+        {
+            echo '<span style="color:red"> Błąd serwera! Przepraszamy za niedogodności i prosimy o rejestrację w innym terminie!</span>';
+           // echo '<br />Informacja deweloperska: '.$e;
+        }
+       
+
+    }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,7 +130,7 @@
 
     <div class="container main d-flex flex-column align-items-center p-3 m-5 mx-auto">
         <h1 class="display-6 text-center p-3">REJESTRACJA</h1>
-        <form method="post" class="fw-bold">
+        <form  method="post" class="fw-bold">
 
             <div
                 class="social-container align-items-center justify-content-evenly d-flex align-items-center justify-content-center">
@@ -72,30 +160,57 @@
                         <path
                             d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
                     </svg></span>
-                <input type="text" class="form-control rounded" id="name" aria-describedby="name" required
-                    placeholder="Wpisz swoje imię" required>
+                <input type="text" name="username" minlength="2" maxlength="20" class="form-control rounded" id="name" aria-describedby="name" required
+                 placeholder="Wpisz swoje imię" required>
             </div>
+            <?php
+                if(isset($_SESSION['e_username']))
+                {
+                    echo '<div style="color:red">'.$_SESSION['e_username'].'</div>';
+                    unset($_SESSION['e_username']);
+                }
+            ?>
 
             <div class="input-group align-self-center m-3">
                 <label for="email" class="form-label"> </label>
                 <span class="input-group-text">@</span>
-                <input type="email" class="form-control rounded" id="email" aria-describedby="email" required
+                <input type="email" name="email" class="form-control rounded" id="email" aria-describedby="email" required
                     placeholder="Wpisz swój adres e-mail" required>
             </div>
+            <?php
+                if(isset($_SESSION['e_email']))
+                {
+                    echo '<div style="color:red">'.$_SESSION['e_email'].'</div>';
+                    unset($_SESSION['e_email']);
+                }
+            ?>
 
-            <div class="input-group mx-3">
+            <div class="input-group mx-3 my-1">
                 <label for="password" class="form-label"> </label>
-                <input type="password" class="form-control rounded" id="password" aria-describedby="password"
+                <input type="password" name="password1" minlength="5" maxlength="20" class="form-control rounded" id="password" aria-describedby="password"
                     placeholder="Wpisz hasło" required>
             </div>
 
+            <div class="input-group mx-3 my-1">
+                <label for="password2" class="form-label"> </label>
+                <input type="password" name="password2" class="form-control rounded" id="password2" aria-describedby="password2"
+                    placeholder="Wpisz hasło ponownie" required>
+            </div>
+            <?php
+                if(isset($_SESSION['e_password']))
+                {
+                    echo '<div style="color:red">'.$_SESSION['e_password'].'</div>';
+                    unset($_SESSION['e_password']);
+                }
+            ?>
+
 
             <div class=" d-flex justify-content-center">
-                <button type="submit" class="btn m-3 p-2" id="register">ZAŁÓŻ KONTO</button>
+                <button type="submit" class="btn m-4 p-2" id="register">ZAŁÓŻ KONTO</button>
             </div>
 
             <div class="container d-flex align-items-center justify-content-center">
-                Masz już konto? <a href="sign-in.html" class="m-3 " id="signIn"> Zaloguj się </a>
+                Masz już konto? <a href="sign-in.php" class="m-1 " id="signIn"> Zaloguj się </a>
             </div>
 
 
