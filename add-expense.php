@@ -147,16 +147,12 @@
       
                 $connection->close();
             }
-
         }
         catch(Exception $e)
         {
             echo '<span style="color:red"> Błąd serwera! Przepraszamy za niedogodności i prosimy o dodanie wydatku w innym terminie!</span>';
             echo '<br />Informacja deweloperska: '.$e;
         }
-       
-
-  
     }
 ?>
 
@@ -261,7 +257,7 @@
                         </svg></span>
                     <select class="form-select" id="category" name="category" aria-label="Default select example">
                         <option selected value="">WYBIERZ KATEGORIĘ</option>
-                     <?php
+                    <?php
                        while($row=$categories->fetch_assoc())
                        {  
                     ?>
