@@ -21,10 +21,14 @@
 
         $date = $_POST['date'];
 
-        //sprawdzenie czy data jest późniejsza od daty dzisiejszej 
-
         $payment_method = $_POST['payment_method'];
-       // sprawdzenie czy któraś jest zaznaczona
+            
+       if($payment_method == "")
+       {
+           $expense_ok = false; 
+           $_SESSION['e_payment_method'] = "Wybierz metodę płatności!";
+       }
+        
 
         $category = $_POST['category'];
 
@@ -35,6 +39,9 @@
         }
 
         $comment='';
+
+        if (isset($_POST['comment'])) $comment=$_POST['comment'];
+
         require_once"connect.php";
 
         mysqli_report(MYSQLI_REPORT_STRICT);
@@ -165,6 +172,13 @@
                 </div>
                  <!--tu trzeba będzie pobrać z bazy danych metody płatności do pokazania-->
             </div>
+            <?php
+                if(isset($_SESSION['e_payment_method']))
+                {
+                    echo '<div class="text-center" style="color:red">'.$_SESSION['e_payment_method'].'</div>';
+                    unset($_SESSION['e_payment_method']);
+                }
+                ?>
 
 
 
@@ -178,8 +192,13 @@
                         </svg></span>
                     <select class="form-select" id="category" name="category" aria-label="Default select example">
                         <option selected value="">WYBIERZ KATEGORIĘ</option>
-                        <option value="food">jedzenie</option>
-                        <!--tu trzeba będzie pobrać z bazy danych kategorie do pokazania-->
+                        <option value="other" id="other">inne</option>
+                     <?php
+
+                        //$id = $_SESSION['id'];
+                       // $categories = $connection->query("SELECT name FROM expenses_category_assigned_to_users
+                       // WHERE user_id = '$id'")
+                    ?>
                     </select>
                 </div>
                 <?php
@@ -191,7 +210,7 @@
                 ?>
 
                 <!-- Button trigger modal -->
-                <button type="button" id="comment" class="btn btn-sm m-2 d-none" data-bs-toggle="modal"
+                <button type="button" id="comment" class="btn btn-sm m-2" data-bs-toggle="modal"
                     data-bs-target="#exampleModal">
                     Dodaj komentarz
                 </button>
@@ -222,7 +241,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn mod2  mx-3 p-2">Zapisz</button>
+                    <button type="submit" class="btn mod2  mx-3 p-2">Zapisz</button>
                     <button type="button" class="btn btn-sm mod1 mx-3 p-2" data-bs-dismiss="modal">Zamknij</button>
                 </div>
             </div>
