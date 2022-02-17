@@ -61,7 +61,8 @@
                 if($everything_OK == true)
                 {
                     if($connection->query("INSERT INTO users VALUES (NULL,'$username', '$password_hash', '$email')") )
-                    {
+                    {   
+                        $_SESSION['email'] = $email;
                         $_SESSION['sign_up_success'] = true; 
                         header('Location: welcome.php');
                     }

@@ -24,23 +24,43 @@
             }
             else
             {
+                $email= $_SESSION['email'];
              
-                $id = $_SESSION['id']; 
+                if ( $result = $connection->query
+                ("SELECT * FROM users WHERE email='$email'") )
+                {
+                        $row = $result->fetch_assoc();
+                        $id = $row['id'];
+                }
+               else{
+                throw new Exception($connection->error);
+                }
+
 
                 //payment methods
                 
-                if( $connection->query("INSERT INTO expenses_category_assigned_to_users
-                VALUES (NULL, '$id' ,  ,   ,'$amount', '$date', '$comment')") )
-                {
-                    $echo "Tablica dodana";
-                }
-                else
+                if( !$connection->query("INSERT INTO payment_methods_assigned_to_users (payment_methods_assigned_to_users.name,
+                payment_methods_assigned_to_users.user_id)
+                SELECT payment_methods_default.name, '$id' FROM payment_methods_default") )
                 {
                     throw new Exception($connection->error);
                 }
                 //expense categories 
-
+ 
+                if( !$connection->query("INSERT INTO incomes_category_assigned_to_users (incomes_category_assigned_to_users.name,
+                incomes_category_assigned_to_users.user_id)
+                SELECT incomes_category_default.name, '$id' FROM incomes_category_default") )
+                {
+                    throw new Exception($connection->error);
+                }
                 //income categories 
+                
+                if( !$connection->query("INSERT INTO expenses_category_assigned_to_users (expenses_category_assigned_to_users.name,
+                expenses_category_assigned_to_users.user_id)
+                SELECT expenses_category_default.name, '$id' FROM expenses_category_default") )
+                {
+                    throw new Exception($connection->error);
+                }
 
                 $connection->close();
             }
@@ -76,6 +96,7 @@
 </head>
 <body>
 
+    
     Dziękujemy za rejestrację! Możesz już zalogować się na swoje konto!
     <a href="sign-in.php">LOGOWANIE</a>
 
