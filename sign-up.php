@@ -109,7 +109,7 @@
 
 <body>
 
-    <div class="container main d-flex flex-column px-4 py-5">
+    <div class="container-fluid justify-content-center align-self-center align-items-center main d-flex flex-column px-4 py-5 my-5">
         <h1 class="display-6 text-center p-3">REJESTRACJA</h1>
         <form  method="post" class="fw-bold">
 

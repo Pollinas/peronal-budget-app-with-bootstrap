@@ -31,7 +31,7 @@
 
 
 
-    <div class="container main d-flex flex-column p-4">
+    <div class="container-fluid main d-flex flex-column p-4 align-self-center align-items-center justify-content-center my-5  ">
         <h1 class="display-6 text-center p-3">Witaj spowrotem!</h1>
         <form method="post" action="check-login.php"  class="fw-bold ">
 

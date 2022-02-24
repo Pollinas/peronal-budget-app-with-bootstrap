@@ -378,23 +378,27 @@
 <body>
   
 
-    <div class="container-fluid main d-flex flex-column align-items-center justify-content-center mx-auto">
+    
        
-        <div class="container d-flex align-items-center flex-row justify-content-between p-5">
-            <h1 class="display-6">Przeglądaj bilans</h1>
-            <form method="post">
-            <select class="form-select" id="time" name="time" onchange='myFunction(event)' aria-label="Default select example">
+        <div class="container d-flex flex-md-row flex-column text-center">
+            <div class="container d-flex justify-content-start"><h1 class="display-6">Przeglądaj bilans</h1></div>
+
+            <div class="d-flex container flex-row justify-content-end">
+            <form method="post" class="list-inline">
+            <select class="form-select list-inline-item" id="time" name="time" onchange='myFunction(event)' aria-label="Default select example">
                         <option selected value="current_month"> Bieżący miesiąc </option>
                         <option value="previous_month"> Ubiegły miesiąc </option>
                         <option value="current_year"> Bieżący rok </option>
                         <option value="custom"> Niestandardowy </option>          
             </select>
           
-            <button type="submit" class=" btn p-2 fw-bold"> Przeglądaj </button>
-            <a href="main-menu.php">Wróc do menu</a>
+            <button type="submit" class="list-inline-item btn p-2 fw-bold"> Przeglądaj </button>
+            <a class=list-inline-item" href="main-menu.php">Wróc do menu</a>
             </form>
+            </div>
         </div>
 
+        <div class="container-fluid main d-flex flex-column align-items-center justify-content-center w-75 py-5 my-5 my-md-0 align-self-center">
         
         <?php if (isset($begin)){ ?>
             <div class="mx-auto">
@@ -403,7 +407,7 @@
         <?php } ?>
 
 
-        <div class="container d-flex flex-row">
+        <div class="container d-flex flex-column flex-lg-row">
             <div class="container  m-2">
                 <table class="table">
                     <thead>
@@ -585,7 +589,7 @@
 
             </div>
 
-            <div class="container  m-2">
+            <div class="container m-2">
 
                 <table class="table">
                 <thead>

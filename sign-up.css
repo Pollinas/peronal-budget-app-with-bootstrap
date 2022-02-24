@@ -17,13 +17,6 @@ body {
 	-webkit-backdrop-filter: blur(3px);
 }
 
-.main{
-	position: absolute;
-left: 50%;
-top: 50%;
-transform: translate(-50%, -50%);
-  }
-
 
 .navbar{
 	font-family: 'Cormorant Garamond', serif;

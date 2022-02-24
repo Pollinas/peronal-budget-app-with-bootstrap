@@ -179,7 +179,7 @@
 <body>
 
 
-    <div class="container main d-flex flex-column py-5 px-4 m-5">
+    <div class="container-fluid align-items-center justify-content-center align-self-center main d-flex flex-column py-5 px-4 my-5">
         <h1 class="display-6 text-center align-self-center p-3 ">WYDATEK</h1>
         <form method="post" class="fw-bold">
             <div class="container d-flex flex-md-row flex-column align-items-center justify-content-center px-5 p-md-1">
