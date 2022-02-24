@@ -29,39 +29,31 @@
 </head>
 
 <body>
-    <div class="pos-f-t">
-        <div class="collapse " id="navbarToggleExternalContent">
-            <div class="bg-dark p-4">
-                <h5 class="h3 m-2" style="color: #EE666C">
-                    Personal Budget App</h5>
-               
-                <ul>
-                    <li class="fs-5 p-4"><a href="add-expense.php"><i class="bi bi-basket"></i><span class="m-2">Dodaj
-                                wydatek</span></a></li>
-                    <li class="p-4"><a href="add-income.php"><i class="bi bi-cash"></i><span class="m-2">Dodaj
-                                przychód</span></a></li>
-                    <li class="p-4"><a href="display-balance.php"><i class="bi bi-pie-chart-fill"></i><span
-                                class="m-2">Wyświetl
-                                bilans</span></a></li>
-                    <li class="p-4"><a href="#"><i class="bi bi-gear"></i><span class="m-2">Ustawienia</span></a></li>
-                    <li class="p-4"><a href="logout.php"><i class="bi bi-box-arrow-right"></i><span class="m-2">Wyloguj
-                                się</span></a></li>
-                </ul>
-            </div>
-        </div>
-        <nav class=" navbar navbar-dark bg-dark p-2">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon m-1"></span> 
-            </button>
-        </nav>
-    </div>
+<nav class="menu">
+   <input type="checkbox" href="#" class="menu-open" name="menu-open" id="menu-open" />
+   <label class="menu-open-button" for="menu-open">
+    <span class="lines line-1"></span>
+    <span class="lines line-2"></span>
+    <span class="lines line-3"></span>
+  </label>
+
+  <div id="description" class="p-md-5 m-md-5 p-2 m-2"></div>
+
+   <a href="https://www.youtube.com/watch?v=aNdgTWjOaxI" class="menu-item blue"> <i class="bi bi-gem"></i> </a>
+   <a href="display-balance.php" class="menu-item green"> <i class="bi bi-pie-chart-fill"></i> </a>
+   <a href="add-expense.php" class="menu-item red"><i class="bi bi-cart4"></i></a>
+   <a href="add-income.php" class="menu-item purple"><i class="bi bi-cash"></i> </a>
+   <a href="#" class="menu-item orange"> <i class="bi bi-gear"></i> </a>
+   <a href="logout.php" class="menu-item lightblue"> <i class="bi bi-box-arrow-left"></i> </a>
+</nav>
+
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
+    <script src="main-menu.js"></script>
 </body>
 
 </html>

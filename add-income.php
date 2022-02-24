@@ -137,10 +137,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="add-income.css">
 </head>
 
 <body>
+
+
 
 
     <div class="container-fluid align-items-center justify-content-center align-self-center main d-flex flex-column py-5 px-4 my-5">
@@ -202,7 +205,7 @@
 
         <div class="container d-flex align-items-center justify-content-center flex-column m-3">
             <button type="submit" id="submit" class="btn m-3 p-3">DODAJ PRZYCHÓD</button>
-            <a href="main-menu.php" class="m-2">Wróć do strony głównej</a>
+            <a href="main-menu.php" class="m-2">Wróć do menu głównego</a>
         </div>
         </form>
     </div>

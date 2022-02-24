@@ -376,29 +376,27 @@
 </head>
 
 <body>
-  
 
-    
-       
-        <div class="container d-flex flex-md-row flex-column text-center">
-            <div class="container d-flex justify-content-start"><h1 class="display-6">Przeglądaj bilans</h1></div>
-
-            <div class="d-flex container flex-row justify-content-end">
-            <form method="post" class="list-inline">
-            <select class="form-select list-inline-item" id="time" name="time" onchange='myFunction(event)' aria-label="Default select example">
+        <nav class="navbar navbar-light">
+        <div class="container-fluid">
+            <h1 class="navbar-brand display-1 fs-2 m-3">Przeglądaj bilans</h1>
+            <form method="post" class="d-flex">
+            <select class="form-select fs-4" id="time" name="time" onchange='myFunction(event)' aria-label="Default select example">
                         <option selected value="current_month"> Bieżący miesiąc </option>
                         <option value="previous_month"> Ubiegły miesiąc </option>
                         <option value="current_year"> Bieżący rok </option>
                         <option value="custom"> Niestandardowy </option>          
             </select>
-          
-            <button type="submit" class="list-inline-item btn p-2 fw-bold"> Przeglądaj </button>
-            <a class=list-inline-item" href="main-menu.php">Wróc do menu</a>
+            <button class="btn btn-outline-success p-2  px-4 m-3" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+  <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
+</svg></button>
             </form>
-            </div>
+            <a class="m-3" href="main-menu.php">Wróć do menu głównego</a>
         </div>
-
-        <div class="container-fluid main d-flex flex-column align-items-center justify-content-center w-75 py-5 my-5 my-md-0 align-self-center">
+        </nav>
+       
+         
+        <div class="container-fluid main d-flex flex-column align-items-center justify-content-center w-75 py-5 my-5 align-self-center">
         
         <?php if (isset($begin)){ ?>
             <div class="mx-auto">
@@ -764,36 +762,84 @@
             </div>
 
         </div>
-          
-           
-        Twój bilans wynosi:
-            <?php
+     
+        
+        <?php
              if (isset($current_month_expenses_sum) && isset($current_month_incomes_sum))
              {
-                 echo $current_month_incomes_sum - $current_month_expenses_sum;
+                 $calculate = $current_month_incomes_sum - $current_month_expenses_sum;
                  unset($current_month_incomes_sum);
+                 unset($current_month_expenses_sum);
+             }
+             if (!isset($current_month_expenses_sum) && isset($current_month_incomes_sum))
+             {
+                 $calculate = $current_month_incomes_sum;
+                 unset($current_month_incomes_sum);
+             }
+             if (isset($current_month_expenses_sum) && !isset($current_month_incomes_sum))
+             {
+                 $calculate = -($current_month_expenses_sum);
                  unset($current_month_expenses_sum);
              }
              else if(isset($previous_month_expenses_sum) && isset($previous_month_incomes_sum))
              {
-                echo $previous_month_incomes_sum - $previous_month_expenses_sum;
+                 $calculate =  $previous_month_incomes_sum - $previous_month_expenses_sum;
                 unset($previous_month_incomes_sum);
+                unset($previous_month_expenses_sum);
+             }
+             else if(!isset($previous_month_expenses_sum) && isset($previous_month_incomes_sum))
+             {
+                 $calculate =  $previous_month_incomes_sum;
                 unset($previous_month_incomes_sum);
+             }
+             else if(isset($previous_month_expenses_sum) && !isset($previous_month_incomes_sum))
+             {
+                 $calculate = -($previous_month_expenses_sum);
+                unset($previous_month_expenses_sum);
              }
              else if
              (isset($current_year_incomes_sum) && isset($current_year_expenses_sum))
              {
-                echo $current_year_incomes_sum - $current_year_expenses_sum;
+                $calculate = $current_year_incomes_sum - $current_year_expenses_sum;
                 unset($current_year_incomes_sum);
+                unset($current_year_expenses_sum);
+             }
+             else if
+             (isset($current_year_incomes_sum) && !isset($current_year_expenses_sum))
+             {
+                $calculate = $current_year_incomes_sum;
+                unset($current_year_incomes_sum);
+             }
+             else if
+             (!isset($current_year_incomes_sum) && isset($current_year_expenses_sum))
+             {
+                $calculate = -($current_year_expenses_sum);
                 unset($current_year_expenses_sum);
              }
              else if(isset($custom_incomes_sum) && isset($custom_expenses_sum))
              {
-                echo $custom_incomes_sum - $custom_expenses_sum;
+                 $calculate = $custom_incomes_sum - $custom_expenses_sum;
                 unset($custom_incomes_sum);
                 unset($custom_expenses_sum);
              }
+             else if(isset($custom_incomes_sum) && !isset($custom_expenses_sum))
+             {
+                 $calculate = $custom_incomes_sum;
+                unset($custom_incomes_sum);
+             }
+             else if(!isset($custom_incomes_sum) && isset($custom_expenses_sum))
+             {
+                 $calculate = -($custom_expenses_sum);
+                unset($custom_expenses_sum);
+             }
              ?>
+         
+        <div class="fs-4 p-3" id="<?php if(isset($calculate) && $calculate <=0) echo'calculate_bad' ;
+         if(isset($calculate) && $calculate >0) echo'calculate_good' ; ?>">
+        Twój bilans wynosi: <b> <?php if(isset($calculate)){echo $calculate;  unset($calculate); echo '&nbsp;'.'PLN'; }?></b>
+        </div>
+
+             <a href="main-menu.php" class="m-4">Wróć do menu głównego</a>
 
     </div>
 
