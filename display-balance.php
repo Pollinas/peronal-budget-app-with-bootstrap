@@ -6,6 +6,351 @@
         header('Location: sign-in.php');
         exit();
     }
+
+    $id = $_SESSION['id'];
+
+    if(isset($_POST['time']) || isset($_POST['begin']))
+    {
+        
+        require_once"connect.php";
+
+        mysqli_report(MYSQLI_REPORT_STRICT);
+
+        try
+        {
+            $connection = new mysqli($host, $db_user, $db_password, $db_name);
+            
+            if ($connection->connect_errno!=0)
+            {
+                throw new Exception(mysqli->connect_errno());
+            }
+            else
+            {   
+               
+                //dla tego miesiąca
+                if (isset($_POST['time']) && $_POST['time'] == "current_month")
+                {   
+                    $current_month= date("m");
+                    //wydatki
+                    $current_month_expenses = $connection->query("SELECT date_of_expense, amount, name
+                    FROM expenses_category_assigned_to_users, expenses 
+                    WHERE EXTRACT(MONTH FROM date_of_expense) = '$current_month' AND expenses.user_id = $id 
+                    AND expenses_category_assigned_to_users.user_id = expenses.user_id 
+                    AND expenses_category_assigned_to_users.id = expenses.expense_category_assigned_to_user_id
+                    ORDER BY date_of_expense ASC");
+
+                    if ( !$current_month_expenses )  throw new Exception($connection->error);
+                           
+                    //przychody
+                    $current_month_incomes = $connection->query("SELECT date_of_income, amount, name
+                    FROM incomes_category_assigned_to_users, incomes 
+                    WHERE EXTRACT(MONTH FROM date_of_income) = '$current_month' AND incomes.user_id = $id 
+                    AND incomes_category_assigned_to_users.user_id = incomes.user_id 
+                    AND incomes_category_assigned_to_users.id = incomes.income_category_assigned_to_user_id
+                    ORDER BY date_of_income ASC");
+
+                    if ( !$current_month_incomes ) throw new Exception($connection->error);
+
+                    //suma wydatków
+                    $stmt = $connection->prepare("SELECT SUM(amount) AS sum FROM expenses 
+                    WHERE EXTRACT(MONTH FROM date_of_expense) = '$current_month' AND expenses.user_id = $id  limit 1");
+ 
+                     if($stmt->execute())
+                     {
+                     $result = $stmt->get_result();
+                     $value = $result->fetch_object();
+                     $current_month_expenses_sum = $value->sum;
+                     }
+                     else
+                     {
+                         throw new Exception($connection->error);
+                     }
+
+                     //suma przychodów
+                     $stmt = $connection->prepare("SELECT SUM(amount) AS sum FROM incomes
+                     WHERE  incomes.user_id = $id AND EXTRACT(MONTH FROM date_of_income) = '$current_month' limit 1");
+  
+                      if($stmt->execute())
+                      {
+                      $result = $stmt->get_result();
+                      $value = $result->fetch_object();
+                      $current_month_incomes_sum = $value->sum;
+                      }
+                      else
+                      {
+                          throw new Exception($connection->error);
+                      }
+
+                      //suma wydatków z podziałem na kategorie 
+                      $current_month_expenses_pie_chart = $connection->query("SELECT name, SUM(amount) AS sum
+                      FROM expenses_category_assigned_to_users, expenses
+                      WHERE EXTRACT(MONTH FROM date_of_expense) = '$current_month' AND expenses.user_id = $id 
+                      AND expenses_category_assigned_to_users.user_id = expenses.user_id 
+                      AND expenses_category_assigned_to_users.id = expenses.expense_category_assigned_to_user_id
+                      GROUP BY name ORDER BY amount DESC");
+  
+                      if ( !$current_month_expenses_pie_chart ) throw new Exception($connection->error);
+
+                        //suma przychodów z podziałem na kategorie 
+                        $current_month_incomes_pie_chart = $connection->query("SELECT name, SUM(amount) AS sum
+                        FROM incomes_category_assigned_to_users, incomes
+                        WHERE EXTRACT(MONTH FROM date_of_income) = '$current_month' AND incomes.user_id = $id 
+                        AND incomes_category_assigned_to_users.user_id = incomes.user_id 
+                        AND incomes_category_assigned_to_users.id = incomes.income_category_assigned_to_user_id
+                        GROUP BY name ORDER BY amount DESC");
+    
+                        if ( !$current_month_incomes_pie_chart ) throw new Exception($connection->error);
+
+                    
+                }
+
+                //dla ubiegłego miesiąca
+                 else if (isset($_POST['time']) && $_POST['time'] == "previous_month")
+                 {   
+                    $current_date = date("Y-m-d");
+                     $previous_month= date("m",mktime(0,0,0,date("m", strtotime($current_date))-1,1,date("Y", strtotime($current_date))));
+                     //wydatki
+                     $previous_month_expenses = $connection->query("SELECT date_of_expense, amount, name
+                     FROM expenses_category_assigned_to_users, expenses 
+                     WHERE EXTRACT(MONTH FROM date_of_expense) = '$previous_month' AND expenses.user_id = $id 
+                     AND expenses_category_assigned_to_users.user_id = expenses.user_id 
+                     AND expenses_category_assigned_to_users.id = expenses.expense_category_assigned_to_user_id
+                     ORDER BY date_of_expense ASC");
+ 
+                     if ( !$previous_month_expenses )   throw new Exception($connection->error);
+                     
+                     //przychody
+                     $previous_month_incomes = $connection->query("SELECT date_of_income, amount, name
+                     FROM incomes_category_assigned_to_users, incomes 
+                     WHERE EXTRACT(MONTH FROM date_of_income) = '$previous_month' AND incomes.user_id = $id 
+                     AND incomes_category_assigned_to_users.user_id = incomes.user_id 
+                     AND incomes_category_assigned_to_users.id = incomes.income_category_assigned_to_user_id
+                     ORDER BY date_of_income ASC");
+ 
+                     if ( !$previous_month_incomes )   throw new Exception($connection->error);
+
+                      //suma wydatków
+                    $stmt = $connection->prepare("SELECT SUM(amount) AS sum FROM expenses 
+                    WHERE EXTRACT(MONTH FROM date_of_expense) = '$previous_month' AND expenses.user_id = $id  limit 1");
+ 
+                     if($stmt->execute())
+                     {
+                     $result = $stmt->get_result();
+                     $value = $result->fetch_object();
+                     $previous_month_expenses_sum = $value->sum;
+                     }
+                     else
+                     {
+                         throw new Exception($connection->error);
+                     }
+
+                     //suma przychodów
+                     $stmt = $connection->prepare("SELECT SUM(amount) AS sum FROM incomes
+                     WHERE  incomes.user_id = $id AND EXTRACT(MONTH FROM date_of_income) = '$previous_month' limit 1");
+  
+                      if($stmt->execute())
+                      {
+                      $result = $stmt->get_result();
+                      $value = $result->fetch_object();
+                      $previous_month_incomes_sum = $value->sum;
+                      }
+                      else
+                      {
+                          throw new Exception($connection->error);
+                      }
+
+                        //suma wydatków z podziałem na kategorie 
+                        $previous_month_expenses_pie_chart = $connection->query("SELECT name, SUM(amount) AS sum
+                        FROM expenses_category_assigned_to_users, expenses
+                        WHERE EXTRACT(MONTH FROM date_of_expense) = '$previous_month' AND expenses.user_id = $id 
+                        AND expenses_category_assigned_to_users.user_id = expenses.user_id 
+                        AND expenses_category_assigned_to_users.id = expenses.expense_category_assigned_to_user_id
+                        GROUP BY name ORDER BY amount DESC");
+    
+                        if ( !$previous_month_expenses_pie_chart ) throw new Exception($connection->error);
+  
+                          //suma przychodów z podziałem na kategorie 
+                          $previous_month_incomes_pie_chart = $connection->query("SELECT name, SUM(amount) AS sum
+                          FROM incomes_category_assigned_to_users, incomes
+                          WHERE EXTRACT(MONTH FROM date_of_income) = '$previous_month' AND incomes.user_id = $id 
+                          AND incomes_category_assigned_to_users.user_id = incomes.user_id 
+                          AND incomes_category_assigned_to_users.id = incomes.income_category_assigned_to_user_id
+                          GROUP BY name ORDER BY amount DESC");
+      
+                          if ( !$previous_month_incomes_pie_chart ) throw new Exception($connection->error);
+                 }
+
+                  //dla bieżącego roku
+                  else if (isset($_POST['time']) && $_POST['time'] == "current_year")
+                  {   
+                    $current_year = date("Y");
+                      //wydatki
+                      $current_year_expenses = $connection->query("SELECT date_of_expense, amount, name
+                      FROM expenses_category_assigned_to_users, expenses 
+                      WHERE EXTRACT(YEAR FROM date_of_expense) = '$current_year'
+                      AND expenses.user_id = $id 
+                      AND expenses_category_assigned_to_users.user_id = expenses.user_id 
+                      AND expenses_category_assigned_to_users.id = expenses.expense_category_assigned_to_user_id
+                      ORDER BY date_of_expense ASC");
+  
+                      if ( !$current_year_expenses )   throw new Exception($connection->error);
+                      
+                      //przychody
+                      $current_year_incomes = $connection->query("SELECT date_of_income, amount, name
+                      FROM incomes_category_assigned_to_users, incomes 
+                      WHERE EXTRACT(YEAR FROM date_of_income) = '$current_year' 
+                       AND incomes.user_id = $id 
+                      AND incomes_category_assigned_to_users.user_id = incomes.user_id 
+                      AND incomes_category_assigned_to_users.id = incomes.income_category_assigned_to_user_id
+                      ORDER BY date_of_income ASC");
+  
+                    if ( !$current_year_incomes )   throw new Exception($connection->error);
+
+                    //suma wydatków
+                    $stmt = $connection->prepare("SELECT SUM(amount) AS sum FROM expenses 
+                    WHERE EXTRACT(YEAR FROM date_of_expense) = '$current_year' AND expenses.user_id = $id  limit 1");
+ 
+                     if($stmt->execute())
+                     {
+                     $result = $stmt->get_result();
+                     $value = $result->fetch_object();
+                     $current_year_expenses_sum = $value->sum;
+                     }
+                     else
+                     {
+                         throw new Exception($connection->error);
+                     }
+
+                     //suma przychodów
+                     $stmt = $connection->prepare("SELECT SUM(amount) AS sum FROM incomes
+                     WHERE  incomes.user_id = $id AND EXTRACT(YEAR FROM date_of_income) = '$current_year' limit 1");
+  
+                      if($stmt->execute())
+                      {
+                      $result = $stmt->get_result();
+                      $value = $result->fetch_object();
+                      $current_year_incomes_sum = $value->sum;
+                      }
+                      else
+                      {
+                          throw new Exception($connection->error);
+                      }
+
+                        //suma wydatków z podziałem na kategorie 
+                        $current_year_expenses_pie_chart = $connection->query("SELECT name, SUM(amount) AS sum
+                        FROM expenses_category_assigned_to_users, expenses
+                        WHERE EXTRACT(YEAR FROM date_of_expense) = '$current_year' AND expenses.user_id = $id 
+                        AND expenses_category_assigned_to_users.user_id = expenses.user_id 
+                        AND expenses_category_assigned_to_users.id = expenses.expense_category_assigned_to_user_id
+                        GROUP BY name ORDER BY amount DESC");
+    
+                        if ( !$current_year_expenses_pie_chart ) throw new Exception($connection->error);
+  
+                          //suma przychodów z podziałem na kategorie 
+                          $current_year_incomes_pie_chart = $connection->query("SELECT name, SUM(amount) AS sum
+                          FROM incomes_category_assigned_to_users, incomes
+                          WHERE EXTRACT(YEAR FROM date_of_income) = '$current_year' AND incomes.user_id = $id 
+                          AND incomes_category_assigned_to_users.user_id = incomes.user_id 
+                          AND incomes_category_assigned_to_users.id = incomes.income_category_assigned_to_user_id
+                          GROUP BY name ORDER BY amount DESC");
+      
+                          if ( !$current_year_incomes_pie_chart ) throw new Exception($connection->error);
+
+                  }
+
+                  //dla 'niestandardowy'
+                  else if (isset($_POST['begin']))
+                  {   
+                      $begin = $_POST['begin'];
+                      $end = $_POST['end'];
+                      
+                      //wydatki
+                      $custom_expenses = $connection->query("SELECT date_of_expense, amount, name
+                      FROM expenses_category_assigned_to_users, expenses 
+                      WHERE date_of_expense BETWEEN '$begin' AND '$end' 
+                      AND expenses.user_id = $id 
+                      AND expenses_category_assigned_to_users.user_id = expenses.user_id 
+                      AND expenses_category_assigned_to_users.id = expenses.expense_category_assigned_to_user_id
+                      ORDER BY date_of_expense DESC");
+  
+                      if ( !$custom_expenses )   throw new Exception($connection->error);
+                      
+                      //przychody
+                      $custom_incomes = $connection->query("SELECT date_of_income, amount, name
+                      FROM incomes_category_assigned_to_users, incomes 
+                      WHERE date_of_income BETWEEN  '$begin' AND  '$end'
+                       AND incomes.user_id = $id 
+                      AND incomes_category_assigned_to_users.user_id = incomes.user_id 
+                      AND incomes_category_assigned_to_users.id = incomes.income_category_assigned_to_user_id
+                      ORDER BY date_of_income DESC");
+  
+                      if ( !$custom_incomes )   throw new Exception($connection->error);
+
+                      //suma wydatków
+                    $stmt = $connection->prepare("SELECT SUM(amount) AS sum FROM expenses 
+                    WHERE date_of_expense BETWEEN '$begin' AND '$end' AND expenses.user_id = $id  limit 1");
+ 
+                     if($stmt->execute())
+                     {
+                     $result = $stmt->get_result();
+                     $value = $result->fetch_object();
+                     $custom_expenses_sum = $value->sum;
+                     }
+                     else
+                     {
+                         throw new Exception($connection->error);
+                     }
+
+                     //suma przychodów
+                     $stmt = $connection->prepare("SELECT SUM(amount) AS sum FROM incomes
+                     WHERE  incomes.user_id = $id AND date_of_income BETWEEN '$begin' AND '$end' limit 1");
+  
+                      if($stmt->execute())
+                      {
+                      $result = $stmt->get_result();
+                      $value = $result->fetch_object();
+                      $custom_incomes_sum = $value->sum;
+                      }
+                      else
+                      {
+                          throw new Exception($connection->error);
+                      }
+
+                        //suma wydatków z podziałem na kategorie 
+                        $custom_expenses_pie_chart = $connection->query("SELECT name, SUM(amount) AS sum
+                        FROM expenses_category_assigned_to_users, expenses
+                        WHERE date_of_expense BETWEEN '$begin' AND '$end' 
+                        AND expenses.user_id = $id 
+                        AND expenses_category_assigned_to_users.user_id = expenses.user_id 
+                        AND expenses_category_assigned_to_users.id = expenses.expense_category_assigned_to_user_id
+                        GROUP BY name ORDER BY amount DESC");
+    
+                        if ( !$custom_expenses_pie_chart ) throw new Exception($connection->error);
+  
+                          //suma przychodów z podziałem na kategorie 
+                          $custom_incomes_pie_chart = $connection->query("SELECT name, SUM(amount) AS sum
+                          FROM incomes_category_assigned_to_users, incomes
+                          WHERE date_of_income BETWEEN'$begin' AND '$end' 
+                          AND incomes.user_id = $id 
+                          AND incomes_category_assigned_to_users.user_id = incomes.user_id 
+                          AND incomes_category_assigned_to_users.id = incomes.income_category_assigned_to_user_id
+                          GROUP BY name ORDER BY amount DESC");
+      
+                          if ( !$custom_incomes_pie_chart ) throw new Exception($connection->error);
+
+
+                  }
+ 
+
+                $connection->close();
+            }
+        }
+        catch(Exception $e)
+        {
+            echo '<span style="color:red"> Błąd serwera! Przepraszamy za niedogodności i prosimy o przeglądanie bilansu w innym terminie!</span>';
+            echo '<br />Informacja deweloperska: '.$e;
+        }
+    }
 ?>
 
 
@@ -27,263 +372,461 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="display-balance.css">
+  
 </head>
 
 <body>
-    <nav class="navbar sticky-top  navbar-light bg-light opacity-75">
-        <div class="container-fluid">
-            <span class="navbar-brand  mx-4 fs-4 fw-bold" id="name">
-                <img class="img-fluid" width="6%"" src=" https://image.flaticon.com/icons/png/512/417/417095.png?w=740"
-                    alt="">
-                Personal Budget App
-            </span>
-        </div>
-    </nav>
-
-    <figure class="text-center">
-        <blockquote class="blockquote">
-            <p>Pieniądze nie są celem. Pieniądze nie mają wartości. Wartość mają marzenia, które
-                pieniądze pomogą zarealizować.</p>
-        </blockquote>
-        <figcaption class="blockquote-footer">
-            <cite title="Source Title">Robert Kiyosaki</cite>
-        </figcaption>
-    </figure>
+  
 
     <div class="container-fluid main d-flex flex-column align-items-center justify-content-center mx-auto">
-        <div class="container d-flex align-items-center justify-content-between p-5">
+       
+        <div class="container d-flex align-items-center flex-row justify-content-between p-5">
             <h1 class="display-6">Przeglądaj bilans</h1>
-            <div class="dropdown">
-                <button class="btn dropdown-toggle" type="button" id="time" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    Wybierz okres
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="time">
-                    <li><button class="dropdown-item" type="button" value="this-month" name="time">Bieżący
-                            miesiąc</button></li>
-                    <li><button class="dropdown-item" type="button" name="time" value="last-moth">Ubiegły
-                            miesiąc</button></li>
-                    <li><button class="dropdown-item" type="button" name="time" value="last-year">Ubiegły rok</button>
-                    </li>
-                    <li><button type="button" name="time" class="dropdown-item btn" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal">Niestandardowy</button> </li>
-                </ul>
-            </div>
+            <form method="post">
+            <select class="form-select" id="time" name="time" onchange='myFunction(event)' aria-label="Default select example">
+                        <option selected value="current_month"> Bieżący miesiąc </option>
+                        <option value="previous_month"> Ubiegły miesiąc </option>
+                        <option value="current_year"> Bieżący rok </option>
+                        <option value="custom"> Niestandardowy </option>          
+            </select>
+          
+            <button type="submit" class=" btn p-2 fw-bold"> Przeglądaj </button>
+            <a href="main-menu.php">Wróc do menu</a>
+            </form>
         </div>
 
+        
+        <?php if (isset($begin)){ ?>
+            <div class="mx-auto">
+                <p>Bilans od <b><?php echo $begin; ?></b>   do  <b><?php echo $end; ?></b> </p>
+            </div>
+        <?php } ?>
 
 
-        <div class=" row">
-            <div class="container col-md m-2">
+        <div class="container d-flex flex-row">
+            <div class="container  m-2">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th class="text-center" scope="col" colspan="4">Przychody</th>
+                            <th class="text-center" scope="col" colspan="3">Przychody</th>
                         </tr>
                         <tr>
-                            <th scope="col">#</th>
                             <th scope="col">Data</th>
                             <th scope="col">Kwota [PLN]</th>
                             <th scope="col">Kategoria</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="salary">
-                            <th scope="row">1</th>
-                            <td>1900/12/10</td>
-                            <td>1000</td>
-                            <td>Wynagrodzenie</td>
+                        <?php
+                        if(isset($current_month_incomes))
+                        {
+                        while($row=$current_month_incomes->fetch_assoc())
+                         {  
+                    ?>
+                         <tr>
+                            <td> <?php echo $row['date_of_income'] ?> </td>
+                            <td> <?php echo $row['amount'] ?> </td>
+                            <td> <?php echo $row['name'] ?> </td>
                         </tr>
-                        <tr class="bank-interest">
-                            <th scope="row">2</th>
-                            <td>1900/12/10</td>
-                            <td>1000</td>
-                            <td>Odsetki bankowe</td>
+                        <?php } 
+                        unset($current_month_incomes);
+                        }
+                     ?>
+
+                    <?php
+                        if(isset($previous_month_incomes))
+                        {
+                        while($row=$previous_month_incomes->fetch_assoc())
+                         {  
+                    ?>
+                         <tr>
+                            <td> <?php echo $row['date_of_income'] ?> </td>
+                            <td> <?php echo $row['amount'] ?> </td>
+                            <td> <?php echo $row['name'] ?> </td>
                         </tr>
-                        <tr class="allegro-sale">
-                            <th scope="row">3</th>
-                            <td>1900/12/10</td>
-                            <td>1000</td>
-                            <td>Sprzedaż na allegro</td>
+                        <?php } 
+                        unset($previous_month_incomes);
+                        }
+                     ?>
+
+                    <?php
+                        if(isset($current_year_incomes))
+                        {
+                        while($row=$current_year_incomes->fetch_assoc())
+                         {  
+                    ?>
+                         <tr>
+                            <td> <?php echo $row['date_of_income'] ?> </td>
+                            <td> <?php echo $row['amount'] ?> </td>
+                            <td> <?php echo $row['name'] ?> </td>
                         </tr>
-                        <tr class="other">
-                            <th scope="row">4</th>
-                            <td>1900/12/10</td>
-                            <td>1000</td>
-                            <td>Inne</td>
+
+                        <?php } 
+                        unset($current_year_incomes);
+                        }
+                     ?>
+                       <?php
+                        if(isset($custom_incomes))
+                        {
+                        while($row=$custom_incomes->fetch_assoc())
+                         {  
+                    ?>
+                         <tr>
+                            <td> <?php echo $row['date_of_income'] ?> </td>
+                            <td> <?php echo $row['amount'] ?> </td>
+                            <td> <?php echo $row['name'] ?> </td>
                         </tr>
+                        <?php }
+                        unset($custom_incomes); 
+                        }
+                     ?>
+                       
                     </tbody>
 
                 </table>
-                <div class="pie-chart" id="income-pie-chart"></div>
+                <!--początek pie-chart -->
+               <?php
+                 if(isset($current_month_incomes_pie_chart))
+                {
+                    $income_pie_chart = $current_month_incomes_pie_chart;
+                    unset($current_month_incomes_pie_chart);
+                    $income_pie_chart_sum = $current_month_incomes_sum;
+                } 
+                if(isset($previous_month_incomes_pie_chart))
+                {
+                   $income_pie_chart = $previous_month_incomes_pie_chart;
+                   unset($previous_month_incomes_pie_chart);
+                   $income_pie_chart_sum = $previous_month_incomes_sum;
+                }
+               if(isset($current_year_incomes_pie_chart))
+                {
+                   $income_pie_chart = $current_year_incomes_pie_chart;
+                   unset($current_year_incomes_pie_chart);
+                   $income_pie_chart_sum = $current_year_incomes_sum;
+                }
+               if(isset($custom_incomes_pie_chart))
+                {
+                   $income_pie_chart = $custom_incomes_pie_chart;
+                   unset($custom_incomes_pie_chart);
+                   $income_pie_chart_sum = $custom_incomes_sum;
+                }
+
+                 if (isset($income_pie_chart))
+             {
+                $colors = ['#D295BF', '#A9CEF4', '#001D4A','#23CE6B','#F34213','#7E52A0' , '#F8F1FF', '#716A5C', '#5DB7DE','#A0CA92','#9B2226','#542344', '#FF6B6B' , '#CA6702', '#0A9396', '#005F73','#F6F930','#E9D8A6','#F72585' , '#F4C3C2', '#94D2BD', '#EE9B00','#36453B','#A37C40','#6A3937' ];
+             ?>
+             <div class="pie-chart-container my-5 d-flex flex-row align-items-center justify-content-center">
+               <div id="income-pie-chart" >
+             <style>
+
+            #income-pie-chart {
+                height: 120px;
+                width: 120px;
+                border-radius: 50%;
+            }
+            #income-pie-chart{
+                background:    
+                conic-gradient( 
+                <?php
+                $index = 0;
+                $currentSum = 0;
+                $income_pie_chart->data_seek(0);
+                 while($row=$income_pie_chart->fetch_assoc()){  
+                $percent =  (($row['sum']/$income_pie_chart_sum)*100);
+                if ($index!=0) { echo ', '; } 
+                echo $colors[$index]; echo ' '.$currentSum.'% ' ; echo ($currentSum+$percent).'% ';
+                $currentSum += $percent;
+                $index++; }
+                unset($currentSum);
+                unset($index);
+                unset($percent);
+                unset($row); ?>
+                );
+            }
+
+            </style>  
+               </div> 
+             <!-- koniec pie-chart --> 
+             <!--legenda-->
+            <div id="legenda" >
+                <?php 
+                $index = 0;
+                $income_pie_chart->data_seek(0);
+                while($row=$income_pie_chart->fetch_assoc()) { ?>
+                <div class="container d-flex flex-row"> 
+                <div id="color-category-<?php echo $index?>" class="align-self-center">
+                <style>
+                #color-category-<?php echo $index ?> {
+                background-color: <?php echo $colors[$index]; ?>;
+                border-radius: 50%;
+                height: 15px;
+                width: 15px;
+                }
+                </style> 
+                </div> 
+                <?php echo '&nbsp;'.'&nbsp;'.$row['name'] ; ?> 
+                <?php echo '&nbsp;'.'&nbsp;'.number_format(($row['sum']/$income_pie_chart_sum*100),2).'%' ; ?>
+                </div>
+               
+                <?php  $index++ ;
+                } ?>
+            </div>
+            </div> 
+            <?php  
+            }
+            unset($income_pie_chart);
+            unset($income_pie_chart_sum);
+             ?>
+             <!-- koniec legendy-->
+             
+            
+        
+
+
             </div>
 
-            <div class="container col-md m-2">
+            <div class="container  m-2">
 
                 <table class="table">
-                    <thead>
+                <thead>
                         <tr>
-                            <th colspan="4" class="text-center" scope="col">Wydatki</th>
+                            <th class="text-center" scope="col" colspan="3">Wydatki</th>
                         </tr>
                         <tr>
-                            <th scope="col">#</th>
                             <th scope="col">Data</th>
                             <th scope="col">Kwota [PLN]</th>
                             <th scope="col">Kategoria</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr class="food">
-                            <th scope="row">1</th>
-                            <td>1900/12/10</td>
-                            <td>1000</td>
-                            <td>Jedzenie</td>
+                    <tbody>        
+                    <?php
+                        if(isset($current_month_expenses))
+                        {
+                        while($row=$current_month_expenses->fetch_assoc())
+                         {  
+                    ?>
+                         <tr>
+                            <td> <?php echo $row['date_of_expense'] ?> </td>
+                            <td> <?php echo $row['amount'] ?> </td>
+                            <td> <?php echo $row['name'] ?> </td>
                         </tr>
-                        <tr class="rent">
-                            <th scope="row">2</th>
-                            <td>1900/12/10</td>
-                            <td>1000</td>
-                            <td>Mieszkanie</td>
+                        <?php } 
+                        unset($current_month_expenses);
+                        }
+                     ?>
+                         <?php
+                        if(isset($previous_month_expenses))
+                        {
+                        while($row=$previous_month_expenses->fetch_assoc())
+                         {  
+                    ?>
+                         <tr>
+                            <td> <?php echo $row['date_of_expense'] ?> </td>
+                            <td> <?php echo $row['amount'] ?> </td>
+                            <td> <?php echo $row['name'] ?> </td>
                         </tr>
-                        <tr class="transportation">
-                            <th scope="row">3</th>
-                            <td>1900/12/10</td>
-                            <td>1000</td>
-                            <td>Transport</td>
+                        <?php } 
+                        unset($previous_month_expenses);
+                        }
+                     ?>
+                      <?php
+                        if(isset($current_year_expenses))
+                        {
+                        while($row=$current_year_expenses->fetch_assoc())
+                         {  
+                    ?>
+                         <tr>
+                            <td> <?php echo $row['date_of_expense'] ?> </td>
+                            <td> <?php echo $row['amount'] ?> </td>
+                            <td> <?php echo $row['name'] ?> </td>
                         </tr>
-                        <tr class="telecomunication">
-                            <th scope="row">4</th>
-                            <td>1900/12/10</td>
-                            <td>1000</td>
-                            <td>Telekomunikacja</td>
+                        <?php } 
+                        unset($current_year_expenses);
+                        }
+                     ?>
+                      <?php
+                        if(isset($custom_expenses))
+                        {
+                        while($row=$custom_expenses->fetch_assoc())
+                         {  
+                    ?>
+                         <tr>
+                            <td> <?php echo $row['date_of_expense'] ?> </td>
+                            <td> <?php echo $row['amount'] ?> </td>
+                            <td> <?php echo $row['name'] ?> </td>
                         </tr>
-                        <tr class="health-care">
-                            <th scope="row">5</th>
-                            <td>1900/12/10</td>
-                            <td>1000</td>
-                            <td>Opieka zdrowotna</td>
-                        </tr>
-                        <tr class="clothing">
-                            <th scope="row">6</th>
-                            <td>1900/12/10</td>
-                            <td>1000</td>
-                            <td>Ubrania</td>
-                        </tr>
-                        <tr class="hygiene">
-                            <th scope="row">7</th>
-                            <td>1900/12/10</td>
-                            <td>1000</td>
-                            <td>Higiena</td>
-                        </tr>
-                        <tr class="children">
-                            <th scope="row">8</th>
-                            <td>1900/12/10</td>
-                            <td>1000</td>
-                            <td>Dzieci</td>
-                        </tr>
-                        <tr class="entertainment">
-                            <th scope="row">9</th>
-                            <td>1900/12/10</td>
-                            <td>1000</td>
-                            <td>Rozrywka</td>
-                        </tr>
-                        <tr class="travel">
-                            <th scope="row">10</th>
-                            <td>1900/12/10</td>
-                            <td>1000</td>
-                            <td>Podróże</td>
-                        </tr>
-                        <tr class="schooling">
-                            <th scope="row">11</th>
-                            <td>1900/12/10</td>
-                            <td>1000</td>
-                            <td>Szkolenia</td>
-                        </tr>
-                        <tr class="books">
-                            <th scope="row">12</th>
-                            <td>1900/12/10</td>
-                            <td>1000</td>
-                            <td>Książki</td>
-                        </tr>
-                        <tr class="savings">
-                            <th scope="row">13</th>
-                            <td>1900/12/10</td>
-                            <td>1000</td>
-                            <td>Oszczędności</td>
-                        </tr>
-                        <tr class="retirement">
-                            <th scope="row">14</th>
-                            <td>1900/12/10</td>
-                            <td>1000</td>
-                            <td>Na emeryturę</td>
-                        </tr>
-                        <tr class="debt">
-                            <th scope="row">15</th>
-                            <td>1900/12/10</td>
-                            <td>1000</td>
-                            <td>Spłata długów</td>
-                        </tr>
-                        <tr class="donation">
-                            <th scope="row">16</th>
-                            <td>1900/12/10</td>
-                            <td>4000</td>
-                            <td>Darowizna</td>
-                        </tr>
-                        <tr class="other">
-                            <th scope="row">17</th>
-                            <td>1900/12/10</td>
-                            <td>1000</td>
-                            <td>Inne</td>
-                        </tr>
+                        <?php } 
+                        unset($custom_expenses);
+                        }
+                     ?>
+    
                     </tbody>
                 </table>
+                <!-- początek pie-chart -->
+                <?php
+               if(isset($current_month_expenses_pie_chart))
+               {
+                  $expense_pie_chart = $current_month_expenses_pie_chart;
+                  unset($current_month_expenses_pie_chart);
+                  $expense_pie_chart_sum = $current_month_expenses_sum;
+               }
+            if (isset($previous_month_expenses_pie_chart))
+             {
+                $expense_pie_chart = $previous_month_expenses_pie_chart;
+                unset($previous_month_expenses_pie_chart);
+                $expense_pie_chart_sum = $previous_month_expenses_sum;
+             }
+            if (isset($current_year_expenses_pie_chart))
+             {
+                $expense_pie_chart = $current_year_expenses_pie_chart;
+                unset($current_year_expenses_pie_chart);
+                $expense_pie_chart_sum = $current_year_expenses_sum;
+             }
+            if (isset($custom_expenses_pie_chart))
+             {
+                $expense_pie_chart = $custom_expenses_pie_chart;
+                unset($custom_expenses_pie_chart);
+                $expense_pie_chart_sum = $custom_expenses_sum;
+             }
 
-                <div class="pie-chart" id="expense-pie-chart"></div>
+             if (isset($expense_pie_chart))
+             {
+                $colors = ['#D295BF', '#A9CEF4', '#001D4A','#23CE6B','#F34213','#7E52A0' , '#F8F1FF', '#716A5C', '#5DB7DE','#A0CA92','#9B2226','#542344', '#FF6B6B' , '#CA6702', '#0A9396', '#005F73','#F6F930','#E9D8A6','#F72585' , '#F4C3C2', '#94D2BD', '#EE9B00','#36453B','#A37C40','#6A3937' ];
+             ?>
+             <div class="pie-chart-container my-5 d-flex flex-row align-items-center justify-content-center">
+               <div id="expense-pie-chart" >
+             <style>
+
+            #expense-pie-chart {
+                height: 120px;
+                width: 120px;
+                border-radius: 50%;
+            }
+            #expense-pie-chart{
+                background:    
+                conic-gradient( 
+                <?php
+                $index = 0;
+                $currentSum = 0;
+                $expense_pie_chart->data_seek(0);
+                 while($row=$expense_pie_chart->fetch_assoc()){  
+                $percent =  (($row['sum']/$expense_pie_chart_sum)*100);
+                if ($index!=0) { echo ', '; } 
+                echo $colors[$index]; echo ' '.$currentSum.'% ' ; echo ($currentSum+$percent).'% ';
+                $currentSum += $percent;
+                $index++; }
+                unset($currentSum);
+                unset($index);
+                unset($percent);
+                unset($row); ?>
+                );
+            }
+
+            </style>  
+               </div> 
+             <!-- koniec pie-chart --> 
+             <!--legenda-->
+            <div id="legenda" >
+                <?php 
+                $index = 0;
+                $expense_pie_chart->data_seek(0);
+                while($row=$expense_pie_chart->fetch_assoc()) { ?>
+                <div class="container d-flex flex-row"> 
+                <div id="color-category-<?php echo $index?>" class="align-self-center">
+                <style>
+                #color-category-<?php echo $index ?> {
+                background-color: <?php echo $colors[$index]; ?>;
+                border-radius: 50%;
+                height: 15px;
+                width: 15px;
+                }
+                </style> 
+                </div> 
+                <?php echo '&nbsp;'.'&nbsp;'.$row['name'] ; ?> 
+                <?php echo '&nbsp;'.'&nbsp;'.number_format(($row['sum']/$expense_pie_chart_sum*100),2).'%' ; ?>
+                </div>
+               
+                <?php  $index++ ;
+                } ?>
+            </div>
+            </div> 
+            <?php  
+            } 
+              unset($expense_pie_chart);
+              unset($expense_pie_chart_sum);
+             ?>
+             <!-- koniec legendy-->
 
             </div>
 
         </div>
-
-        <div class="alert alert-danger align-self-center" role="alert">
-            <h4 class="alert-heading text-center">UWAGA!</h4>
-            <hr>
-            <p class="mb-0 balance-amount">Twój bilans z wybranego okresu wynosi: -16 000 PLN</p>
-        </div>
+          
+           
+        Twój bilans wynosi:
+            <?php
+             if (isset($current_month_expenses_sum) && isset($current_month_incomes_sum))
+             {
+                 echo $current_month_incomes_sum - $current_month_expenses_sum;
+                 unset($current_month_incomes_sum);
+                 unset($current_month_expenses_sum);
+             }
+             else if(isset($previous_month_expenses_sum) && isset($previous_month_incomes_sum))
+             {
+                echo $previous_month_incomes_sum - $previous_month_expenses_sum;
+                unset($previous_month_incomes_sum);
+                unset($previous_month_incomes_sum);
+             }
+             else if
+             (isset($current_year_incomes_sum) && isset($current_year_expenses_sum))
+             {
+                echo $current_year_incomes_sum - $current_year_expenses_sum;
+                unset($current_year_incomes_sum);
+                unset($current_year_expenses_sum);
+             }
+             else if(isset($custom_incomes_sum) && isset($custom_expenses_sum))
+             {
+                echo $custom_incomes_sum - $custom_expenses_sum;
+                unset($custom_incomes_sum);
+                unset($custom_expenses_sum);
+             }
+             ?>
 
     </div>
 
-    <!-- Modal -->
+        <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Wybierz przedział czasowy</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="#">
-
-                        <label for="beginning">od</label>
-                        <input class="input-control m-2" type="date" id="beginning">
-
-                        <label for="end">do</label>
-                        <input class="input-control m-2 " type="date" id="end">
-
-                    </form>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn" data-bs-dismiss="modal">Zamknij</button>
-                    <button type="button" class="btn">Zapisz zmiany</button>
-                </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Wybierz przedział czasowy</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="post">
+        <div class="modal-body container d-flex flex-row text-center">
+            <div class="container d-flex flex-column">
+            <label for="begin" class="form-label">DATA POCZĄTKOWA</label>
+            <input type="date" id="begin" name="begin" onchange="checkBeginDate(event)" required>
+            </div>
+            <div class="container d-flex flex-column text-center">
+            <label for="end" class="form-label">DATA KOŃCOWA</label>
+            <input type="date" id="end" name="end" onchange="checkEndDate(event)" required>
             </div>
         </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+            </form>
+        </div>
+    </div>
     </div>
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
+    <script src="display-balance.js"></script>
+
 </body>
 
 </html>
