@@ -109,26 +109,6 @@
 
 <body>
 
-    <nav class="navbar sticky-top  navbar-light bg-light opacity-75">
-        <div class="container-fluid">
-            <span class="navbar-brand  mx-4 fs-4 fw-bold" id="name">
-                <img class="img-fluid" width="6%"" src=" https://image.flaticon.com/icons/png/512/417/417095.png?w=740"
-                    alt="">
-                Personal Budget App
-            </span>
-        </div>
-    </nav>
-
-    <figure class="text-center">
-        <blockquote class="blockquote">
-            <p>Pieniądze nie są celem. Pieniądze nie mają wartości. Wartość mają marzenia, które
-                pieniądze pomogą zarealizować.</p>
-        </blockquote>
-        <figcaption class="blockquote-footer">
-            <cite title="Source Title">Robert Kiyosaki</cite>
-        </figcaption>
-    </figure>
-
     <div class="container main d-flex flex-column align-items-center p-3 m-5 mx-auto">
         <h1 class="display-6 text-center p-3">REJESTRACJA</h1>
         <form  method="post" class="fw-bold">

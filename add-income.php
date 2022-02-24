@@ -114,7 +114,7 @@
         }
         catch(Exception $e)
         {
-            echo '<span style="color:red"> Błąd serwera! Przepraszamy za niedogodności i prosimy o dodanie wydatku w innym terminie!</span>';
+            echo '<span style="color:red"> Błąd serwera! Przepraszamy za niedogodności i prosimy o dodanie przychodu w innym terminie!</span>';
             echo '<br />Informacja deweloperska: '.$e;
         }
   
@@ -141,25 +141,7 @@
 </head>
 
 <body>
-    <nav class="navbar sticky-top  navbar-light bg-light opacity-75">
-        <div class="container-fluid">
-            <span class="navbar-brand  mx-4 fs-4 fw-bold" id="name">
-                <img class="img-fluid" width="6%"" src=" https://image.flaticon.com/icons/png/512/417/417095.png?w=740"
-                    alt="">
-                Personal Budget App
-            </span>
-        </div>
-    </nav>
 
-    <figure class="text-center">
-        <blockquote class="blockquote">
-            <p>Pieniądze nie są celem. Pieniądze nie mają wartości. Wartość mają marzenia, które
-                pieniądze pomogą zarealizować.</p>
-        </blockquote>
-        <figcaption class="blockquote-footer">
-            <cite title="Source Title">Robert Kiyosaki</cite>
-        </figcaption>
-    </figure>
 
     <div class="container main d-flex flex-column align-items-center justify-content-center p-3 m-5 mx-auto">
         <h1 class="display-6 text-center align-self-center p-3 ">PRZYCHÓD</h1>
@@ -185,7 +167,7 @@
 
 
 
-        <div class="container d-flex align-items-center justify-content-center flex-column m-3">
+        <div class="container d-flex align-items-center justify-content-center flex-column my-2 mx-1">
             <div class="input-group m-3">
                 <label for="category"></label>
                 <span class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -213,43 +195,15 @@
                 ?>
 
 
-
-            <!-- Button trigger modal -->
-            <button type="button" id="comment" class="btn btn-sm m-3" data-bs-toggle="modal"
-                data-bs-target="#exampleModal">
-                Dodaj komentarz
-            </button>
         </div>
 
         <div class="container d-flex align-items-center justify-content-center flex-column m-3">
             <button type="submit" id="submit" class="btn m-3">DODAJ PRZYCHÓD</button>
-            <a href="main-menu.html" class="m-2">Wróć do menu głównego</a>
+            <a href="main-menu.php" class="m-2">Wróć do menu głównego</a>
         </div>
         </form>
     </div>
 
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Twoje uwagi do przychodu</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="#">
-                        <label for="comment" class="form-label"></label>
-                        <input type="text" id="comment" class="form-control" placeholder="Wpisz tekst">
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn mod2  mx-3 p-2">Zapisz</button>
-                    <button type="button" class="btn btn-sm mod1 mx-3 p-2" data-bs-dismiss="modal">Zamknij</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

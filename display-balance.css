@@ -1,10 +1,6 @@
 body {
 
-	background:  url("https://images.unsplash.com/photo-1591617870684-6e861e6a48ad?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=892&q=80") no-repeat center center fixed;
-	background-size: cover;
-	-webkit-background-size: cover;
-    -moz-background-size: cover;
-     -o-background-size: cover;
+	background-color: #f0f1f1;
 }
 .main{
 	
@@ -16,29 +12,17 @@ body {
 
 .navbar{
 	font-family: 'Cormorant Garamond', serif;
-	background: linear-gradient(to bottom, #E6E6E6, white) ;
+	
 }
 h1, .main{
 	font-family: 'Roboto Slab', serif;
 }
 
-figure{
-	display: none;
-}
-
-.navbar:hover + figure{
-	display: block;
-	position:relative;
-}
-.navbar:hover{
-	background: linear-gradient(to bottom, #B5BA55, white) ;
-}
 
 
 .modal{
 	font-family: 'Roboto Slab', serif;
 	font-weight: bold;
-	background: linear-gradient(to bottom, #B5BA55, white) ;
 }
 
 #time{
@@ -51,94 +35,3 @@ figure{
 
 
 
-
-.pie-chart{
-    width: 15rem;
-    height: 15rem;
-    border-radius: 50%;
-    position: relative;
-    margin-top: 20%;
-    margin-bottom: 10%;
-    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
-			0 10px 10px rgba(0,0,0,0.22);
-}
-
-#income-pie-chart{
-    background: conic-gradient(#e2b1b1 0% 25%, #fafafa 25% 50%, #e1e8b4 50% 75%, #c7d66d 75%);
-}
-
-.other{
-    background-image: linear-gradient(to left, #e2b1b1, white);
-}
-.allegro-sale{
-    background-image: linear-gradient(to left ,#fafafa, white);
-}
-
-.salary{
-    background-image: linear-gradient(to left,#e1e8b4, white);
-}
-
-.bank-interest{
-    background-image: linear-gradient(to left,  #c7d66d, white);
-}
-
-#expense-pie-chart{
-    background: conic-gradient(#e2b1b1 0% 5%, #28b8d5 5% 10%, #ef9770 10% 15%, #28b79f 15% 20%, #f75971 20% 25%, #ffe169 25% 30%, #8d4274 30% 35% ,#9bf8f4 35% 40%, #f4daed 40% 45%, #a8e6cf 45% 50%,#becee4 50% 55%,#adfda2 55% 60%,#f8c8a6 60% 65%, #5673ae 65% 70%, #aebed6 70% 75%, #ff8500 75% 80%, #fafafa 80%);
-}
-
-.food{
-    background-image: linear-gradient(to left, #28b8d5, white);
-}
-
-.rent{
-    background-image:linear-gradient(to left, #ef9770, white);
-}
-
-.transportation{
-    background-image: linear-gradient(to left,#28b79f,white);
-}
-
-.telecomunication{
-    background-image: linear-gradient(to left, #f75971, white);
-}
-.health-care{
-    background-image:linear-gradient(to left, #ffe169, white);
-}
-.clothing{
-    background-image:linear-gradient(to left, #8d4274, white);
-}
-.hygiene{
-    background-image:linear-gradient(to left ,#9bf8f4, white);
-}
-.children{
-    background-image:linear-gradient(to left, #f4daed, white);
-}
-.entertainment{
-    background-image: linear-gradient(to left, #a8e6cf, white);
-}
-.travel{
-    background-image: linear-gradient(to left,#becee4, white);
-}
-.schooling{
-    background-image: linear-gradient(to left, #adfda2, white);
-}
-.books{
-    background-image:linear-gradient(to left, #f8c8a6, white);
-}
-.savings{
-    background-image: linear-gradient(to left, #5673ae, white);
-}
-.retirement{
-    background-image:linear-gradient(to left, #aebed6, white);
-}
-.debt{
-    background-image:linear-gradient(to left, #ff8500, white);
-}
-.donation{
-    background-image:linear-gradient(to left,#fafafa, white);
-}
-
-
-.balance-amount{
-    font-size: 2rem;
-}

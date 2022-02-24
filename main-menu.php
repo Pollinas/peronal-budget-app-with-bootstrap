@@ -36,7 +36,7 @@
                     Personal Budget App</h5>
                
                 <ul>
-                    <li class=" p-4"><a href="add-expense.php"><i class="bi bi-basket"></i><span class="m-2">Dodaj
+                    <li class="fs-5 p-4"><a href="add-expense.php"><i class="bi bi-basket"></i><span class="m-2">Dodaj
                                 wydatek</span></a></li>
                     <li class="p-4"><a href="add-income.php"><i class="bi bi-cash"></i><span class="m-2">Dodaj
                                 przychód</span></a></li>
@@ -53,7 +53,7 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
                 aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon m-1"></span> <span class="h5">MENU GŁÓWNE</span>
+                <span class="navbar-toggler-icon m-1"></span> 
             </button>
         </nav>
     </div>

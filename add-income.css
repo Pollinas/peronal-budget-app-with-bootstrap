@@ -1,10 +1,5 @@
 body {
-
-	background:  url("https://images.unsplash.com/photo-1591617870684-6e861e6a48ad?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=892&q=80") no-repeat center center fixed;
-	background-size: cover;
-	-webkit-background-size: cover;
-    -moz-background-size: cover;
-     -o-background-size: cover;
+	background-color: #f0f1f1;
 }
 
 .main{
@@ -17,30 +12,12 @@ body {
 
 .navbar{
 	font-family: 'Cormorant Garamond', serif;
-	background: linear-gradient(to bottom, #E6E6E6, white) ;
+
 }
 h1, .main{
 	font-family: 'Roboto Slab', serif;
 }
 
-figure{
-	display: none;
-}
-
-.navbar:hover + figure{
-	display: block;
-	position:relative;
-}
-.navbar:hover{
-	background: linear-gradient(to bottom, #B5BA55, white) ;
-}
-
-
-.modal{
-	font-family: 'Roboto Slab', serif;
-	font-weight: bold;
-	background: linear-gradient(to bottom, #B5BA55, white) ;
-}
 
 
 .btn{

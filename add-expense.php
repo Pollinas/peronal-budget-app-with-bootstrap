@@ -101,7 +101,7 @@
             {
                
                 if($expense_ok == true)
-                {
+                {    
                      // id payment-method i id expense- category
                     $stmt = $connection->prepare("SELECT id FROM expenses_category_assigned_to_users
                     WHERE user_id='$id' AND name='$category' limit 1");
@@ -110,7 +110,7 @@
                     {
                     $result = $stmt->get_result();
                     $value = $result->fetch_object();
-                    $category_id= $value->id;
+                    $category_id = $value->id;
                     }
                     else
                     {
@@ -177,25 +177,6 @@
 </head>
 
 <body>
-    <nav class="navbar sticky-top  navbar-light bg-light opacity-75">
-        <div class="container-fluid">
-            <span class="navbar-brand  mx-4 fs-4 fw-bold" id="name">
-                <img class="img-fluid" width="6%"" src=" https://image.flaticon.com/icons/png/512/417/417095.png?w=740"
-                    alt="">
-                Personal Budget App
-            </span>
-        </div>
-    </nav>
-
-    <figure class="text-center">
-        <blockquote class="blockquote">
-            <p>Pieniądze nie są celem. Pieniądze nie mają wartości. Wartość mają marzenia, które
-                pieniądze pomogą zarealizować.</p>
-        </blockquote>
-        <figcaption class="blockquote-footer">
-            <cite title="Source Title">Robert Kiyosaki</cite>
-        </figcaption>
-    </figure>
 
 
     <div class="container main d-flex flex-column align-items-center justify-content-center p-3 m-5 mx-auto">
@@ -207,10 +188,11 @@
                     <span class="input-group-text">PLN</span>
                     <input type="number" name="amount" class="form-control" id="amount"  required>
                 </div>
-               
+ 
                 <div class="input-group m-2">
                     <label for="date" class="form-label align-self-center m-1 m-md-2">DATA WYDATKU</label>
-                    <input type="date" name="date" class="form-control" id="date" onchange="myFunction(event)" required>
+                    <input type="date" name="date" class="form-control" id="date" 
+                    onchange="myFunction(event)"  required>
                 </div>
             </div>
             <?php
@@ -221,7 +203,7 @@
                 }
              ?>
 
-            <div class="container d-flex m-3 flex-column text-center justify-content-center">
+            <div class="container d-flex m-3 mx-auto flex-column text-center justify-content-center w-50">
                 <label class="form-label fw-bolder m-3">METODA PŁATNOŚCI</label>
 
                 <?php
@@ -247,7 +229,7 @@
 
 
 
-            <div class="container d-flex align-items-center justify-content-center flex-column">
+            <div class="container d-flex align-items-center justify-content-center mx-auto w-75 flex-column">
                 <div class="input-group m-3">
                     <label for="category"></label>
                     <span class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -274,45 +256,20 @@
                 }
                 ?>
 
-                <!-- Button trigger modal -->
-                <button type="button" id="comment" class="btn btn-sm m-2" data-bs-toggle="modal"
-                    data-bs-target="#exampleModal">
-                    Dodaj komentarz
-                </button>
+                <div class="m-2">
+                <input type="text" class="form-control" name="comment" id="comment" placeholder="Komentarz (opcjonalnie)">
+                </div>
             </div>
 
-            <div class="container d-flex align-items-center justify-content-center flex-column m-3">
-                <button type="submit" id="submit" class="btn m-2">DODAJ WYDATEK</button>
-                <a href="main-menu.php" class="m-2">Wróć do menu głównego</a>
+            <div class="container d-flex align-items-center justify-content-center mx-auto my-2 flex-column">
+                <button type="submit" id="submit" class="btn m-3">DODAJ WYDATEK</button>
+                <a href="main-menu.php" class="m-3">Wróć do menu głównego</a>
             </div>
 
         </form>
+       
 
     </div>
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Twoje uwagi do wydatku</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form method="post">
-                        <label for="comment" class="form-label"></label>
-                        <input type="text" id="comment" name="comment" class="form-control" placeholder="Wpisz tekst">
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit"  class="btn mod2  m-4 ">Zapisz</button>
-                    <button type="button" class="btn btn-sm mod1 mx-3 p-2" data-bs-dismiss="modal">Zamknij</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 
 
 
