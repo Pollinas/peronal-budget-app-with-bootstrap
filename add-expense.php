@@ -263,7 +263,7 @@
 
             <div class="container d-flex align-items-center justify-content-center mx-auto my-2 flex-column">
                 <button type="submit" id="submit" class="btn m-3 p-3">DODAJ WYDATEK</button>
-                <a href="main-menu.php" class="m-3">Wróć do strony głównej</a>
+                <a href="main-menu.php" class="m-3">Wróć do menu głównego</a>
             </div>
 
         </form>

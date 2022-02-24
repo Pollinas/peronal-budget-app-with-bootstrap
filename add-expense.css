@@ -49,6 +49,8 @@ a{
 
 a:hover, a:focus{
 	transform: scale(1.2);
+	color: rgb(251, 133, 0);
+
 }
 
 
