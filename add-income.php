@@ -143,7 +143,7 @@
 <body>
 
 
-    <div class="container main d-flex flex-column py-5 px-4 m-5">
+    <div class="container-fluid align-items-center justify-content-center align-self-center main d-flex flex-column py-5 px-4 my-5">
         <h1 class="display-6 text-center align-self-center p-3 ">PRZYCHÓD</h1>
         <form method="post" class="fw-bold">
         <div class="container d-flex flex-md-row flex-column align-items-center justify-content-center px-5 p-md-1">
@@ -152,7 +152,7 @@
                 <span class="input-group-text">PLN</span>
                 <input type="number" class="form-control" name="amount" id="amount" required>
             </div>
-            <div class="input-group m-2">
+            <div class="input-group m-2 my-3 my-md-2">
                 <label for="date" class="form-label align-self-center m-1">DATA PRZYCHODU</label>
                 <input type="date" class="form-control" id="date" name="date" onchange="myFunction(event)" required>
             </div>
