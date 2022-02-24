@@ -143,10 +143,10 @@
 <body>
 
 
-    <div class="container main d-flex flex-column align-items-center justify-content-center p-3 m-5 mx-auto">
+    <div class="container main d-flex flex-column py-5 px-4 m-5">
         <h1 class="display-6 text-center align-self-center p-3 ">PRZYCHÓD</h1>
         <form method="post" class="fw-bold">
-        <div class="container d-flex flex-md-row flex-column align-items-center justify-content-center">
+        <div class="container d-flex flex-md-row flex-column align-items-center justify-content-center px-5 p-md-1">
             <div class="input-group">
                 <label for="amount" class="form-label align-self-center m-1">KWOTA PRZYCHODU</label>
                 <span class="input-group-text">PLN</span>
@@ -167,8 +167,8 @@
 
 
 
-        <div class="container d-flex align-items-center justify-content-center flex-column my-2 mx-1">
-            <div class="input-group m-3">
+        <div class="container d-flex align-items-center justify-content-center flex-column mx-auto my-3 px-md-5 py-md-3">
+            <div class="input-group  m-3 px-5">
                 <label for="category"></label>
                 <span class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                         fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
@@ -193,13 +193,16 @@
                     unset($_SESSION['e_category']);
                 }
                 ?>
+                  <div class="m-2">
+                <input type="text" class="form-control" name="comment" id="comment" placeholder="Komentarz (opcjonalnie)">
+                </div>
 
 
         </div>
 
         <div class="container d-flex align-items-center justify-content-center flex-column m-3">
-            <button type="submit" id="submit" class="btn m-3">DODAJ PRZYCHÓD</button>
-            <a href="main-menu.php" class="m-2">Wróć do menu głównego</a>
+            <button type="submit" id="submit" class="btn m-3 p-3">DODAJ PRZYCHÓD</button>
+            <a href="main-menu.php" class="m-2">Wróć do strony głównej</a>
         </div>
         </form>
     </div>

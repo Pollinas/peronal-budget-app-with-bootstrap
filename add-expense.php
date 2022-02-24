@@ -179,10 +179,10 @@
 <body>
 
 
-    <div class="container main d-flex flex-column align-items-center justify-content-center p-3 m-5 mx-auto">
+    <div class="container main d-flex flex-column py-5 px-4 m-5">
         <h1 class="display-6 text-center align-self-center p-3 ">WYDATEK</h1>
         <form method="post" class="fw-bold">
-            <div class="container d-flex flex-md-row flex-column align-items-center justify-content-center">
+            <div class="container d-flex flex-md-row flex-column align-items-center justify-content-center px-5 p-md-1">
                 <div class="input-group m-2">
                     <label for="amount" class="form-label align-self-center m-1">KWOTA WYDATKU</label>
                     <span class="input-group-text">PLN</span>
@@ -230,7 +230,7 @@
 
 
             <div class="container d-flex align-items-center justify-content-center mx-auto w-75 flex-column">
-                <div class="input-group m-3">
+                <div class="input-group m-3 px-4">
                     <label for="category"></label>
                     <span class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                             fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
@@ -262,8 +262,8 @@
             </div>
 
             <div class="container d-flex align-items-center justify-content-center mx-auto my-2 flex-column">
-                <button type="submit" id="submit" class="btn m-3">DODAJ WYDATEK</button>
-                <a href="main-menu.php" class="m-3">Wróć do menu głównego</a>
+                <button type="submit" id="submit" class="btn m-3 p-3">DODAJ WYDATEK</button>
+                <a href="main-menu.php" class="m-3">Wróć do strony głównej</a>
             </div>
 
         </form>
