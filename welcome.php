@@ -4,8 +4,8 @@
 
     if (!isset($_SESSION['sign_up_success']))
     {
-        header('Location: sign-in.php');
-        exit();
+       // header('Location: sign-in.php');
+       // exit();
     }
 
     else
@@ -97,17 +97,22 @@
     <link rel="stylesheet" href="welcome.css" />
 </head>
 <body>
-
-    <div class="container mx-auto my-auto d-flex flex-row justify-content-center align-items-center" height="40px">
-        <div class="container mx-auto my-auto" >
-            <img src="https://images.unsplash.com/photo-1519834785169-98be25ec3f84?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c3VjY2Vzc3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=600&q=60" 
-            class="img-fluid" alt="">
+    
+    <div class="container-fluid m-md-5 p-md-5  d-flex justify-content-center flex-row align-items-center">
+        <img src="https://images.unsplash.com/photo-1519834785169-98be25ec3f84?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8c3VjY2Vzc3xlbnwwfDF8MHx8&auto=format&fit=crop&w=500&q=60" 
+        alt="" class="img-fluid img-thumbnail p-5 m-5">
+        <div class="container welcome d-flex justify-conetnt-center text-center align-items-center flex-column p-md-5 m-md-5 py-4">
+            <h1>Gratulacje! </h1> <span>Pierwszy krok w kierunku wolności finansowej wykonany!</span>
+             <span>Potrzebujesz jeszcze garści inspiracji? </span>
+             <a href="https://www.youtube.com/watch?v=3Td8aeugXhY">Kliknij tutaj! </a> <br> 
+             <span> Chcesz od razu działać dalej? </span>
+             <a href="sign-in.php"> Zaloguj się po raz pierwszy na swoje konto! </a>
         </div>
 
-    <div class="container d-flex flex-column align-items-center">
-    Dziękujemy za rejestrację! Możesz już <a href="sign-in.php">zalogować się</a> na swoje konto! 
+    </div>
 
-    </div>  
+    
+   
 
     
 

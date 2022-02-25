@@ -1,1 +1,49 @@
+body{
+    width:100%;
+    height:100%;
+    background-color: #8ECAE6;
+}
+
+.welcome{
+    font-family: 'Cormorant Garamond', serif;
+    border-radius: 15px;
+	background: rgba(255, 255, 255, 0.8);
+	backdrop-filter: blur(3px);
+	-webkit-backdrop-filter: blur(3px);
+    font-weight: bold;
+}
+a{
+	text-decoration: none;
+	color: #9b2226;
+	font-size: 120%;
+	transition: all 1s ease-out;
+	cursor: pointer;
+    font-weight: bolder;
+}
+
+a:hover, a:focus{
+	transform: scale(1.2);
+	color: #9b2226;
+}
+
+@media (max-height : 800px), (max-width: 991.98px) {
+    .welcome{
+        z-index: 1;
+        position: absolute;
+        top: 50%;
+        transform: translate(0, -50%);
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      a{
+          color:white;
+      }
+    }
+
+span,a {
+    font-size: 20px;
+}
+
+
+
 
