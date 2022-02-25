@@ -2,9 +2,9 @@
 let description = document.querySelector('#description');
 
 // opis inspiracja
-const blue = document.querySelector('.blue');
-blue.onmouseover = inspirationMouseOver;
-blue.onmouseout = inspirationMouseOut;
+const inspiration = document.querySelector('.inspiration');
+inspiration.onmouseover = inspirationMouseOver;
+inspiration.onmouseout = inspirationMouseOut;
 
 
 function inspirationMouseOver() {
@@ -18,9 +18,9 @@ function inspirationMouseOut() {
 
 //opis wyświetl bilans
 
-const green = document.querySelector('.green');
-green.onmouseover = balanceMouseOver;
-green.onmouseout = balanceMouseOut;
+const balance = document.querySelector('.balance');
+balance.onmouseover = balanceMouseOver;
+balance.onmouseout = balanceMouseOut;
 
 
 function balanceMouseOver() {
@@ -34,9 +34,9 @@ function balanceMouseOut() {
 
 //opis dodaj wydatek
 
-const red = document.querySelector('.red');
-red.onmouseover = expenseMouseOver;
-red.onmouseout = expenseMouseOut;
+const expense = document.querySelector('.expense');
+expense.onmouseover = expenseMouseOver;
+expense.onmouseout = expenseMouseOut;
 
 
 function expenseMouseOver() {
@@ -50,7 +50,7 @@ function expenseMouseOut() {
 
 //opis dodaj przychód
 
-const income = document.querySelector('.purple');
+const income = document.querySelector('.income');
 income.onmouseover = incomeMouseOver;
 income.onmouseout = incomeMouseOut;
 
@@ -67,7 +67,7 @@ function incomeMouseOut() {
 
 //opis ustawienia
 
-const settings = document.querySelector('.orange');
+const settings = document.querySelector('.settings');
 settings.onmouseover = settingsMouseOver;
 settings.onmouseout = settingsMouseOut;
 
@@ -82,7 +82,7 @@ function settingsMouseOut() {
 }
 
 //opis wyloguj się
-const logOut = document.querySelector('.lightblue');
+const logOut = document.querySelector('.logOut');
 logOut.onmouseover = logOutMouseOver;
 logOut.onmouseout = logOutMouseOut;
 

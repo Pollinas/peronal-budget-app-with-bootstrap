@@ -6,6 +6,7 @@
         header('Location: sign-in.php');
         exit();
     }
+
 ?>
 
 <!DOCTYPE html>
@@ -29,6 +30,20 @@
 </head>
 
 <body>
+
+<div id="description" class="p-md-5 m-md-5 p-2 m-2 fs-3"></div>
+
+<?php if(isset($_SESSION['expense_success']))
+    { ?>
+    <div class="alert alert-success" role="alert"> Wydatek dodany!</div>
+        
+  <?php  } unset($_SESSION['expense_success']); 
+   if( isset($_SESSION['income_success']))
+   { ?> 
+   <div class="alert alert-success" role="alert">Przychód dodany!</div>
+   
+<?php } unset($_SESSION['income_success']) ;?>
+
 <nav class="menu">
    <input type="checkbox" href="#" class="menu-open" name="menu-open" id="menu-open" />
    <label class="menu-open-button" for="menu-open">
@@ -37,14 +52,12 @@
     <span class="lines line-3"></span>
   </label>
 
-  <div id="description" class="p-md-5 m-md-5 p-2 m-2"></div>
-
-   <a href="https://www.youtube.com/watch?v=aNdgTWjOaxI" class="menu-item blue"> <i class="bi bi-gem"></i> </a>
-   <a href="display-balance.php" class="menu-item green"> <i class="bi bi-pie-chart-fill"></i> </a>
-   <a href="add-expense.php" class="menu-item red"><i class="bi bi-cart4"></i></a>
-   <a href="add-income.php" class="menu-item purple"><i class="bi bi-cash"></i> </a>
-   <a href="#" class="menu-item orange"> <i class="bi bi-gear"></i> </a>
-   <a href="logout.php" class="menu-item lightblue"> <i class="bi bi-box-arrow-left"></i> </a>
+   <a href="https://www.youtube.com/watch?v=aNdgTWjOaxI" class="menu-item inspiration"> <i class="bi bi-gem"></i> </a>
+   <a href="display-balance.php" class="menu-item balance"> <i class="bi bi-pie-chart-fill"></i> </a>
+   <a href="add-expense.php" class="menu-item expense"><i class="bi bi-cart4"></i></a>
+   <a href="add-income.php" class="menu-item income"><i class="bi bi-cash"></i> </a>
+   <a href="#" class="menu-item settings"> <i class="bi bi-gear"></i> </a>
+   <a href="logout.php" class="menu-item logOut"> <i class="bi bi-box-arrow-left"></i> </a>
 </nav>
 
 
